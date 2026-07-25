@@ -124,8 +124,11 @@ a { color: inherit; text-decoration: none; }
 .dropdown__all:hover { background: var(--green-hover); color: #fff; }
 
 .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: 0;
-  cursor: pointer; padding: 6px; margin-left: auto; }
-.nav-toggle span { width: 26px; height: 3px; background: var(--ink); border-radius: 2px; transition: .25s; }
+  cursor: pointer; padding: 6px; margin-left: auto; position: relative; z-index: 70; }
+.nav-toggle span { width: 26px; height: 3px; background: var(--ink); border-radius: 2px; transition: transform .25s ease, opacity .2s ease; }
+.nav-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* ---------- Hero ---------- */
 .hero { background:
@@ -373,7 +376,7 @@ a { color: inherit; text-decoration: none; }
   .topbar__inner { justify-content: center; }
   .header__cta { display: none; }
   .header { backdrop-filter: none; }   /* avoid creating a containing block for the fixed nav */
-  .nav { position: fixed; inset: 0 0 0 auto; width: min(82vw, 320px); height: 100dvh;
+  .nav { position: fixed; inset: 0 0 0 auto; width: min(82vw, 320px); height: 100dvh; z-index: 55;
     overflow-y: auto; flex-direction: column; align-items: stretch; gap: 4px;
     background: #fff; padding: 88px 26px 32px; margin: 0;
     box-shadow: -12px 0 40px -14px rgba(0,0,0,.3);

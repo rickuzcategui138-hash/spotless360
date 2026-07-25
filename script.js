@@ -5,14 +5,17 @@ const nav = document.getElementById('nav');
 if (toggle && nav) {
   toggle.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
     document.body.classList.toggle('menu-open', open);
     toggle.setAttribute('aria-expanded', String(open));
+    if (!open) closeServices();
   });
 
   // Close menu when a real link is tapped
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       nav.classList.remove('open');
+      toggle.classList.remove('open');
       document.body.classList.remove('menu-open');
       toggle.setAttribute('aria-expanded', 'false');
       closeServices();
