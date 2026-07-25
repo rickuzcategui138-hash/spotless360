@@ -213,6 +213,32 @@ a { color: inherit; text-decoration: none; }
   font-size: .9rem; color: var(--green-dark); margin-top: 4px; }
 .svc__call:hover { color: var(--green); }
 
+/* ---------- Service hero (inner) ---------- */
+.svc-hero { background:
+  radial-gradient(900px 460px at 88% -20%, rgba(22,166,55,.12), transparent 60%),
+  linear-gradient(180deg, #fff 0%, var(--bg-alt) 100%);
+  padding: clamp(28px, 4vw, 46px) 0 clamp(40px, 6vw, 64px); }
+.svc-hero__grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 46px; align-items: start; }
+.svc-hero__title { font-size: clamp(2rem, 4.4vw, 3rem); font-weight: 800; margin: 8px 0 16px; }
+.svc-hero__lead { font-size: 1.08rem; max-width: 44ch; margin-bottom: 22px; }
+
+/* ---------- Process steps ---------- */
+.steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; counter-reset: step; }
+.step { background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 24px 18px; box-shadow: var(--shadow-sm); position: relative; }
+.step__num { width: 40px; height: 40px; border-radius: 50%; background: var(--green); color: #fff;
+  font-family: "Poppins"; font-weight: 700; display: grid; place-items: center; margin-bottom: 14px; }
+.step h3 { font-size: 1.02rem; margin-bottom: 6px; }
+.step p { font-size: .88rem; }
+
+/* ---------- Benefit list (icon rows) ---------- */
+.benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 30px; }
+.benefit { display: flex; gap: 14px; align-items: flex-start; }
+.benefit__ico { flex: 0 0 46px; width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center;
+  background: rgba(22,166,55,.12); color: var(--green); }
+.benefit h3 { font-size: 1.05rem; margin-bottom: 4px; }
+.benefit p { font-size: .93rem; }
+
 /* ---------- Trust strip ---------- */
 .trust-strip { background: var(--green-dark); color: #fff; }
 .trust-strip__inner { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 34px;
@@ -338,6 +364,8 @@ a { color: inherit; text-decoration: none; }
   .footer__grid { grid-template-columns: 1fr 1fr; gap: 28px; }
   .svc__grid { grid-template-columns: 1fr; gap: 28px; }
   .svc__aside { position: static; }
+  .svc-hero__grid { grid-template-columns: 1fr; gap: 34px; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 720px) {
@@ -382,4 +410,6 @@ a { color: inherit; text-decoration: none; }
   .svc__cols { grid-template-columns: 1fr; gap: 20px; }
   .svc__head { gap: 12px; }
   .svc__ico { flex-basis: 52px; width: 52px; height: 52px; }
+  .steps { grid-template-columns: 1fr; }
+  .benefits { grid-template-columns: 1fr; }
 }
