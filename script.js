@@ -9,13 +9,42 @@ if (toggle && nav) {
     toggle.setAttribute('aria-expanded', String(open));
   });
 
-  // Close menu when a link is tapped
+  // Close menu when a real link is tapped
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       nav.classList.remove('open');
       document.body.classList.remove('menu-open');
       toggle.setAttribute('aria-expanded', 'false');
+      closeServices();
     });
+  });
+}
+
+// Services dropdown
+const servicesItem = document.getElementById('servicesItem');
+const servicesToggle = document.getElementById('servicesToggle');
+
+function closeServices() {
+  if (!servicesItem) return;
+  servicesItem.classList.remove('open');
+  servicesToggle.setAttribute('aria-expanded', 'false');
+}
+
+if (servicesItem && servicesToggle) {
+  servicesToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = servicesItem.classList.toggle('open');
+    servicesToggle.setAttribute('aria-expanded', String(open));
+  });
+
+  // Click outside closes it
+  document.addEventListener('click', (e) => {
+    if (!servicesItem.contains(e.target)) closeServices();
+  });
+
+  // Escape closes it
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeServices();
   });
 }
 

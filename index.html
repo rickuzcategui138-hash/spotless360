@@ -55,7 +55,34 @@
 
       <nav class="nav" id="nav">
         <a href="#top">Home</a>
-        <a href="#services">Services</a>
+
+        <div class="nav-item has-dropdown" id="servicesItem">
+          <button type="button" class="nav-link nav-drop-toggle" id="servicesToggle" aria-haspopup="true" aria-expanded="false">
+            Services
+            <svg class="caret" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+          </button>
+
+          <div class="dropdown" role="menu" aria-label="Services">
+            <a class="dropdown__item" href="#air-duct" role="menuitem">
+              <span class="dropdown__ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/></svg></span>
+              <span class="dropdown__txt"><strong>Air Duct Cleaning &amp; Repair</strong><small>Cleaner airflow &amp; fewer allergens</small></span>
+            </a>
+            <a class="dropdown__item" href="#dryer-vent" role="menuitem">
+              <span class="dropdown__ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M6 3h12v6a6 6 0 0 1-12 0zM8 15h8v6H8z"/></svg></span>
+              <span class="dropdown__txt"><strong>Dryer Vent Cleaning &amp; Repair</strong><small>Prevent fires, cut drying time</small></span>
+            </a>
+            <a class="dropdown__item" href="#chimney" role="menuitem">
+              <span class="dropdown__ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M4 20V9l8-6 8 6v11h-5v-6H9v6z"/></svg></span>
+              <span class="dropdown__txt"><strong>Chimney Cleaning &amp; Repair</strong><small>Safe, creosote-free fireplaces</small></span>
+            </a>
+            <a class="dropdown__item" href="#gutters" role="menuitem">
+              <span class="dropdown__ico"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M3 7h18l-2 4H5zM5 11h14v3H5zM7 14h2v6H7z"/></svg></span>
+              <span class="dropdown__txt"><strong>Gutter Cleaning &amp; Repair</strong><small>Protect roof &amp; foundation</small></span>
+            </a>
+            <a class="dropdown__all" href="#services" role="menuitem">View all services &rarr;</a>
+          </div>
+        </div>
+
         <a href="#about">About</a>
         <a href="/blog">Blog</a>
       </nav>
@@ -174,7 +201,7 @@
       </div>
 
       <div class="cards cards--4">
-        <article class="card">
+        <article class="card" id="air-duct">
           <div class="card__icon">
             <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M4 4h16v4H4zM4 10h16v4H4zM4 16h16v4H4z"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg>
           </div>
@@ -183,7 +210,7 @@
           <a class="card__link" href="#quote">Get a quote &rarr;</a>
         </article>
 
-        <article class="card">
+        <article class="card" id="dryer-vent">
           <div class="card__icon">
             <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M6 3h12v6a6 6 0 0 1-12 0zM8 15h8v6H8z"/></svg>
           </div>
@@ -192,7 +219,7 @@
           <a class="card__link" href="#quote">Get a quote &rarr;</a>
         </article>
 
-        <article class="card">
+        <article class="card" id="chimney">
           <div class="card__icon">
             <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M4 20V9l8-6 8 6v11h-5v-6H9v6z"/></svg>
           </div>
@@ -201,7 +228,7 @@
           <a class="card__link" href="#quote">Get a quote &rarr;</a>
         </article>
 
-        <article class="card">
+        <article class="card" id="gutters">
           <div class="card__icon">
             <svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true"><path fill="currentColor" d="M3 7h18l-2 4H5zM5 11h14v3H5zM7 14h2v6H7z"/></svg>
           </div>
