@@ -739,3 +739,52 @@ body.sheet-open .bottom-nav { display: none; }
 .promo__btn--secondary svg { fill: #fff; }
 
 body.promo-open { overflow: hidden; }
+
+/* ============================================================
+   Real photos — About image + "Our Work" gallery
+============================================================ */
+.about__media img.about__photo {
+  width: 100%; max-width: none; padding: 0; background: none;
+  border-radius: 24px; box-shadow: var(--shadow);
+  aspect-ratio: 3 / 2; object-fit: cover;
+}
+
+.gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.gallery__item {
+  margin: 0; border-radius: 18px; overflow: hidden;
+  box-shadow: var(--shadow-sm); background: #fff;
+}
+.gallery__item img {
+  width: 100%; height: 260px; object-fit: cover; display: block;
+  transition: transform .35s ease;
+}
+.gallery__item:hover img { transform: scale(1.05); }
+
+@media (max-width: 960px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) {
+  .gallery { grid-template-columns: 1fr; }
+  .gallery__item img { height: 230px; }
+}
+
+/* ============================================================
+   Photo hero modifier — dark image background + white text.
+   Reusable on the home hero (.hero) and any service hero (.svc-hero).
+   Placed last so it overrides the base .hero / .svc-hero backgrounds.
+============================================================ */
+.hero--photo {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(16,33,26,.86) 0%, rgba(16,33,26,.72) 50%, rgba(16,33,26,.82) 100%),
+    url("assets/airduct-residential.jpg") center 28% / cover no-repeat;
+}
+.hero--photo .hero__eyebrow { color: #ff9d5c; }
+.hero--photo .hero__title,
+.hero--photo .svc-hero__title { color: #fff; }
+.hero--photo .hero__lead,
+.hero--photo .svc-hero__lead { color: rgba(255,255,255,.85); }
+.hero--photo .hero__points li { color: #fff; }
+.hero--photo .hero__trust { color: rgba(255,255,255,.85); }
+.hero--photo .hero__trust strong { color: #fff; }
+.hero--photo .breadcrumb,
+.hero--photo .breadcrumb a { color: rgba(255,255,255,.8); }
+.hero--photo .breadcrumb a:hover { color: #fff; }
