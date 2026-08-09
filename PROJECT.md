@@ -34,8 +34,8 @@ Static site — plain **HTML, CSS and vanilla JavaScript**. No framework, no bui
 
 **Contact**
 
-- Phone / tel: **+1 (770) 755-3787** → `tel:+17707553787`
-- WhatsApp: `https://wa.me/17707553787` (most links include a prefilled `?text=` message)
+- Phone / tel: **+1 (470) 660-4517** → `tel:+14706604517`
+- WhatsApp: `https://wa.me/14706604517` (most links include a prefilled `?text=` message)
 - Service area: Atlanta, GA & metro area
 - Hours: Mon–Sat, 8:00 AM – 7:00 PM
 

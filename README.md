@@ -26,4 +26,4 @@ Then open http://localhost:5501
 
 ## Contact
 
-Phone / WhatsApp: **+1 (770) 755-3787** · Serving Metro Atlanta, GA
+Phone / WhatsApp: **+1 (470) 660-4517** · Serving Metro Atlanta, GA

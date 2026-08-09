@@ -17,7 +17,7 @@ gutter cleaning & repair**. Static site — plain **HTML + CSS + vanilla JS**, n
 - **All site content is in English** (client is in Atlanta, GA). Chat with the user in Spanish.
 - Keep the brand: bright green `#16a637`, forest green `#2f5d1e`, gold `#c6a13a`; fonts **Poppins**
   (headings) + **Inter** (body). Logo: `assets/logo-spotless360.avif`.
-- Phone: **(770) 755-3787** → `tel:+17707553787`; WhatsApp `https://wa.me/17707553787`.
+- Phone: **(470) 660-4517** → `tel:+14706604517`; WhatsApp `https://wa.me/14706604517`.
 - Use **relative links only** (site is served under `/spotless360/` on Pages — absolute `/paths` break).
 - `styles.css` and `script.js` are **shared by every page** — a change applies site-wide.
 - Every page needs: unique title/description/canonical, OG + Twitter tags, and JSON-LD.

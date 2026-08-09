@@ -450,7 +450,7 @@ a.post-featured:hover { transform: translateY(-4px); }
     transform: translateX(100%); transition: transform .28s ease; }
   .nav.open { transform: translateX(0); }
   .nav a { font-size: 1.1rem; padding: 12px 0; border-bottom: 1px solid var(--line); }
-  .nav-toggle { display: flex; }
+  .nav-toggle { display: none; }   /* replaced by the bottom "More" button + slide-up sheet */
   body.menu-open { overflow: hidden; }
 
   /* Dropdown becomes an inline accordion inside the mobile menu */
@@ -483,4 +483,195 @@ a.post-featured:hover { transform: translateY(-4px); }
   .steps { grid-template-columns: 1fr; }
   .benefits { grid-template-columns: 1fr; }
   .post-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   Mobile bottom tab bar (app-style) — injected by script.js,
+   shown only on phones. Home · Services · Call · Book · More
+============================================================ */
+.bottom-nav { display: none; }
+
+@media (max-width: 720px) {
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 58;
+    justify-content: space-around;
+    align-items: center;
+    gap: 4px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    box-shadow: 0 12px 32px -10px rgba(24,60,24,.35);
+    padding: 8px 6px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .bottom-nav__item {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 3px;
+    min-width: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-decoration: none;
+    color: #6b7280;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: .68rem;
+    line-height: 1;
+    padding: 4px 2px;
+    transition: color .18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bottom-nav__item:hover,
+  .bottom-nav__item:focus-visible { color: var(--green); }
+  .bottom-nav__item.is-active { color: var(--green); }
+
+  .bottom-nav__ico { display: grid; place-items: center; }
+  .bottom-nav__item svg {
+    width: 24px; height: 24px;
+    fill: none; stroke: currentColor;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* Elevated central Call button */
+  .bottom-nav__call { margin-top: -30px; }
+  .bottom-nav__call .bottom-nav__ico {
+    width: 58px; height: 58px; border-radius: 50%;
+    background: var(--green); color: #fff;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 22px -6px rgba(22,166,55,.7);
+  }
+  .bottom-nav__call svg { width: 26px; height: 26px; fill: #fff; stroke: none; }
+  .bottom-nav__call .bottom-nav__label { color: var(--green); margin-top: 2px; }
+
+  /* Keep page content and the floating WhatsApp clear of the bar */
+  body { padding-bottom: 92px; }
+  .fab-whatsapp { bottom: 96px; }
+
+  /* Hide the bar while the slide-out menu is open */
+  body.menu-open .bottom-nav { display: none; }
+}
+
+/* ============================================================
+   Slide-up menu (bottom sheet) — opened by the "More" button
+============================================================ */
+.sheet-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(16, 33, 26, .5);
+  opacity: 0; pointer-events: none;
+  transition: opacity .28s ease;
+  z-index: 90;
+}
+.sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  background: #fff;
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -18px 44px -16px rgba(16,33,26,.4);
+  max-height: 88vh;
+  display: flex; flex-direction: column;
+  transform: translateY(100%);
+  transition: transform .32s cubic-bezier(.22,.61,.36,1);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.sheet.open { transform: translateY(0); }
+
+.sheet__handle {
+  width: 44px; height: 5px; border-radius: 3px;
+  background: #d6e0d6; margin: 10px auto 2px;
+  flex: none;
+}
+.sheet__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 22px 12px;
+  flex: none;
+}
+.sheet__title { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1.35rem; color: var(--ink); }
+.sheet__close {
+  background: none; border: 0; cursor: pointer; color: var(--muted);
+  padding: 6px; display: grid; place-items: center; border-radius: 8px;
+}
+.sheet__close svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.sheet__close:hover { color: var(--ink); }
+
+.sheet__body {
+  overflow-y: auto;
+  padding: 0 22px 22px;
+  -webkit-overflow-scrolling: touch;
+}
+.sheet__link {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 16px 2px;
+  font-family: "Poppins", sans-serif; font-weight: 600; font-size: 1.15rem;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.sheet__link:hover, .sheet__link:focus-visible { color: var(--green); }
+.sheet__link .chev { width: 20px; height: 20px; flex: none; fill: none; stroke: #b7c3b7; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.sheet__link:hover .chev { stroke: var(--green); }
+
+.sheet__section {
+  font-family: "Poppins", sans-serif; font-weight: 700; font-size: .78rem;
+  letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted);
+  padding: 20px 2px 6px;
+}
+.sheet__link--sub { font-weight: 500; font-size: 1.05rem; color: var(--body); }
+
+.sheet__call {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 22px;
+  padding: 16px;
+  background: var(--green); color: #fff;
+  font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1.15rem;
+  border-radius: 14px;
+  box-shadow: 0 12px 26px -10px rgba(22,166,55,.7);
+}
+.sheet__call:hover { background: var(--green-hover); }
+.sheet__call svg { width: 22px; height: 22px; fill: #fff; }
+
+body.sheet-open { overflow: hidden; }
+body.sheet-open .bottom-nav { display: none; }
+
+/* ============================================================
+   Header mobile CTAs — Call + Schedule (injected by script.js)
+============================================================ */
+.header-mcta { display: none; }
+
+@media (max-width: 720px) {
+  .header-mcta {
+    display: flex; align-items: center; gap: 8px;
+    margin-left: auto;
+  }
+  .header-mcta__btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 14px; border-radius: 11px;
+    font-family: "Poppins", sans-serif; font-weight: 700; font-size: .84rem;
+    white-space: nowrap; color: #fff;
+    box-shadow: var(--shadow-sm);
+    transition: background .18s ease, transform .15s ease;
+  }
+  .header-mcta__btn:active { transform: translateY(1px); }
+  .header-mcta__btn svg { width: 16px; height: 16px; flex: none; }
+  .header-mcta__call { background: var(--green); }
+  .header-mcta__call:hover { background: var(--green-hover); }
+  .header-mcta__call svg { fill: #fff; }
+  .header-mcta__book { background: var(--green-dark); }
+  .header-mcta__book:hover { background: #264c18; }
+  .header-mcta__book svg { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+}
+
+/* Very small phones: tighten so both buttons fit */
+@media (max-width: 390px) {
+  .header-mcta { gap: 6px; }
+  .header-mcta__btn { padding: 8px 11px; font-size: .78rem; gap: 5px; }
+  .header .brand img { width: 140px; height: auto; }
 }
