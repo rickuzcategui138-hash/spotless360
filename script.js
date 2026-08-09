@@ -105,6 +105,53 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
   }
 })();
 
+// Promo modal — home page only, appears 5s after load, once per session
+(function buildPromoModal() {
+  const file = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  const isHome = file === '' || file === 'index.html';
+  if (!isHome) return;
+  if (sessionStorage.getItem('promoSeen')) return;
+
+  const calIco = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5"/><path d="M3 9.5h18"/><path d="M8 2.5v4"/><path d="M16 2.5v4"/></svg>';
+  const closeIco = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+  const arrowIco = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
+  const phoneIco = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .58 3.6 1 1 0 0 1-.25 1z"/></svg>';
+
+  const modal = document.createElement('div');
+  modal.className = 'promo';
+  modal.setAttribute('role', 'dialog');
+  modal.setAttribute('aria-modal', 'true');
+  modal.setAttribute('aria-label', 'Schedule your inspection online');
+  modal.innerHTML =
+    '<div class="promo__card">' +
+      '<button type="button" class="promo__close" id="promoClose" aria-label="Close">' + closeIco + '</button>' +
+      '<div class="promo__ico">' + calIco + '</div>' +
+      '<div class="promo__title">Schedule Your Inspection Online</div>' +
+      '<p class="promo__text">Choose your service and reserve an available appointment time.</p>' +
+      '<a class="promo__btn promo__btn--primary" href="index.html#quote"><span>Schedule Online Now</span>' + arrowIco + '</a>' +
+      '<a class="promo__btn promo__btn--secondary" href="tel:+14706604517">' + phoneIco + '<span>Call Now: (470) 660-4517</span></a>' +
+    '</div>';
+
+  document.body.appendChild(modal);
+
+  function open() {
+    modal.classList.add('open');
+    document.body.classList.add('promo-open');
+    sessionStorage.setItem('promoSeen', '1');
+  }
+  function close() {
+    modal.classList.remove('open');
+    document.body.classList.remove('promo-open');
+  }
+
+  document.getElementById('promoClose').addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
+  modal.querySelector('.promo__btn--primary').addEventListener('click', close);
+
+  setTimeout(open, 5000);
+})();
+
 // Header mobile CTAs — Call + Schedule (injected so they're identical on every page)
 (function buildHeaderCta() {
   const inner = document.querySelector('.header__inner');

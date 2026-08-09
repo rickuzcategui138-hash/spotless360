@@ -675,3 +675,67 @@ body.sheet-open .bottom-nav { display: none; }
   .header-mcta__btn { padding: 8px 11px; font-size: .78rem; gap: 5px; }
   .header .brand img { width: 140px; height: auto; }
 }
+
+/* ============================================================
+   Promo modal (home only) — appears 5s after load
+============================================================ */
+.promo {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center; padding: 20px;
+  background: rgba(9, 16, 9, .64);
+  opacity: 0; visibility: hidden;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+.promo.open { opacity: 1; visibility: visible; }
+
+.promo__card {
+  position: relative; width: 100%; max-width: 420px;
+  background: #182818; color: #fff;
+  border: 1px solid rgba(120, 200, 120, .18);
+  border-radius: 20px;
+  padding: 42px 28px 28px; text-align: center;
+  box-shadow: 0 30px 70px -20px rgba(0,0,0,.7);
+  transform: translateY(18px) scale(.97);
+  transition: transform .3s cubic-bezier(.22,.61,.36,1);
+}
+.promo.open .promo__card { transform: none; }
+
+.promo__close {
+  position: absolute; top: 14px; right: 14px;
+  background: none; border: 0; cursor: pointer;
+  color: rgba(255,255,255,.6);
+  padding: 6px; display: grid; place-items: center; border-radius: 8px;
+}
+.promo__close:hover { color: #fff; background: rgba(255,255,255,.08); }
+.promo__close svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+
+.promo__ico {
+  width: 66px; height: 66px; border-radius: 50%;
+  margin: 0 auto 18px; display: grid; place-items: center;
+  background: rgba(22,166,55,.16);
+  border: 1px solid rgba(22,166,55,.45);
+}
+.promo__ico svg { width: 30px; height: 30px; fill: none; stroke: var(--green); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+.promo__title {
+  font-family: "Poppins", sans-serif; font-weight: 800;
+  font-size: 1.7rem; line-height: 1.15; color: #fff; margin-bottom: 10px;
+}
+.promo__text { color: rgba(255,255,255,.72); font-size: .98rem; line-height: 1.5; margin-bottom: 26px; }
+
+.promo__btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 15px 16px; border-radius: 12px;
+  font-family: "Poppins", sans-serif; font-weight: 700; font-size: 1.02rem;
+  transition: background .18s ease;
+}
+.promo__btn + .promo__btn { margin-top: 12px; }
+.promo__btn svg { width: 20px; height: 20px; flex: none; }
+.promo__btn--primary { background: var(--green); color: #fff; }
+.promo__btn--primary:hover { background: var(--green-hover); }
+.promo__btn--primary svg { fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.promo__btn--secondary { background: rgba(255,255,255,.06); color: #fff; border: 1px solid rgba(255,255,255,.2); }
+.promo__btn--secondary:hover { background: rgba(255,255,255,.12); }
+.promo__btn--secondary svg { fill: #fff; }
+
+body.promo-open { overflow: hidden; }
