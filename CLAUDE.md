@@ -31,7 +31,7 @@ Open http://localhost:5501 . After edits, verify in the browser before pushing.
 
 ## Pages (all built & live)
 
-- `index.html` — Home (hero + offer form, services, about teaser w/ video placeholder, testimonials, FAQ, contact)
+- `index.html` — Home (hero **w/ photo background** + offer form, services, About **w/ real photo**, **"Our Work" gallery**, testimonials, FAQ, contact; **promo modal** 5 s after load)
 - `services.html` — All services + services FAQ
 - `air-duct-cleaning-repair.html`, `dryer-vent-cleaning-repair.html`,
   `chimney-cleaning-repair.html`, `gutter-cleaning-repair.html` — 4 service landing pages (same template)
@@ -44,13 +44,22 @@ Open http://localhost:5501 . After edits, verify in the browser before pushing.
 Home, Services, About, Blog + 1 article, and all 4 service pages are built, SEO'd, mobile-verified
 and deployed. Nav dropdown (desktop hover / mobile accordion), branded OG image, and cross-links all done.
 
+**Mobile UX (2026-08-10):** app-style **bottom tab bar** (Home/Services/Call/Book/More), **slide-up
+menu sheet** replacing the top hamburger, **Call+Schedule** header CTAs, and a **home promo modal**
+(5 s, once/session) — all injected by `script.js`. Phone updated site-wide to **(470) 660-4517** and
+"homes served" to **1249+**. Real photos added: home hero + Air Duct hero backgrounds (`hero--photo`),
+home About photo, and the **"Our Work" gallery** — optimized JPEGs in `assets/`.
+
 ## TODO / next steps (pick up here)
 
-- [ ] `sitemap.xml` + `robots.txt` (10 pages now)
+- [ ] `sitemap.xml` + `robots.txt` (9 pages)
 - [ ] Connect forms to a real destination (currently `action="#"` — Formspree / CRM / GoHighLevel)
 - [ ] Write the 6 remaining "coming soon" blog articles
-- [ ] Real photos (team, before/after) + About presentation video
-- [ ] Optional: custom domain (spotless360.com)
+- [ ] Photos for Dryer Vent / Chimney / Gutter hero backgrounds (need service-specific shots)
+- [ ] Wire `logo-stacked.png` as favicon + regenerate OG image from the new logo
+- [ ] Decide JSON-LD `reviewCount` (still `127`; "homes served" copy is now `1249+`)
+- [ ] Replace the About-page (about.html) video placeholder with a real photo/video
+- [ ] Optional: custom domain (spotless360.com / spotless360ga.com)
 
 ## Note on memory
 
