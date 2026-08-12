@@ -64,13 +64,25 @@ a { color: inherit; text-decoration: none; }
 .stars { color: var(--gold); letter-spacing: 2px; }
 .check { color: var(--green); font-weight: 800; }
 
-/* ---------- Top bar ---------- */
-.topbar { background: var(--green-dark); color: #fff; font-family: "Poppins"; }
-.topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding-block: 9px; font-size: .82rem; font-weight: 600; }
-.topbar__tag { letter-spacing: .6px; text-transform: uppercase; opacity: .95; }
-.topbar__phone { font-weight: 700; }
-.topbar__phone:hover { text-decoration: underline; }
+/* ---------- Top bar (animated marquee) ---------- */
+.topbar { background: var(--green-dark); color: #fff; font-family: "Poppins"; overflow: hidden; }
+.topbar__marquee { display: flex; overflow: hidden; white-space: nowrap; }
+.topbar__track { display: flex; flex-shrink: 0; align-items: center;
+  animation: topbar-scroll 22s linear infinite; will-change: transform; }
+.topbar__item { padding-block: 9px; padding-inline: 2.2rem;
+  font-size: .82rem; font-weight: 600; letter-spacing: .4px; }
+.topbar__item a { color: inherit; font-weight: 700; }
+.topbar__ico { color: #ff3b30; }
+.topbar:hover .topbar__track { animation-play-state: paused; }
+
+@keyframes topbar-scroll {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topbar__track { animation: none; }
+  .topbar__marquee { justify-content: center; }
+}
 
 /* ---------- Header ---------- */
 .header { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.96);
@@ -139,6 +151,18 @@ a { color: inherit; text-decoration: none; }
 .hero__eyebrow { font-family: "Poppins"; font-weight: 700; color: #d23b1e; font-size: .95rem; margin-bottom: 14px; }
 .hero__title { font-size: clamp(2rem, 4.6vw, 3.25rem); margin-bottom: 18px; }
 .hero__lead { font-size: 1.1rem; max-width: 40ch; margin-bottom: 22px; }
+
+/* Google Reviews badge (hero) */
+.hero__greviews { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin: 6px 0 26px; padding: 12px 20px; border-radius: 14px;
+  background: #fff; box-shadow: 0 8px 22px rgba(0,0,0,.22); }
+.greviews__word { font-family: "Poppins", sans-serif; font-weight: 500;
+  font-size: 1.7rem; letter-spacing: -1px; line-height: 1; }
+.greviews--b { color: #4285F4; } .greviews--r { color: #EA4335; }
+.greviews--y { color: #FBBC05; } .greviews--g { color: #34A853; }
+.greviews__label { font-family: "Poppins", sans-serif; font-weight: 600;
+  color: #5f6368; font-size: 1.4rem; line-height: 1; }
+.greviews__stars { color: #FBBC05; font-size: 1.3rem; letter-spacing: 3px; }
 .hero__points { list-style: none; display: grid; gap: 10px; margin-bottom: 26px; }
 .hero__points li { display: flex; gap: 10px; align-items: center; font-weight: 500; color: var(--ink); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
@@ -146,6 +170,8 @@ a { color: inherit; text-decoration: none; }
 .hero__trust strong { color: var(--ink); }
 
 /* Offer form card */
+.offer-heading { font-family: "Poppins", sans-serif; font-weight: 700; color: #fff;
+  font-size: 1.9rem; line-height: 1.15; margin-bottom: 16px; }
 .offer-card { background: #fff; border: 1px solid var(--line); border-radius: 22px;
   box-shadow: var(--shadow); padding: 26px 24px; }
 .offer-card__title { font-size: 1.4rem; margin-bottom: 6px; }
@@ -439,8 +465,11 @@ a.post-featured:hover { transform: translateY(-4px); }
 }
 
 @media (max-width: 720px) {
-  .topbar__tag { display: none; }
-  .topbar__inner { justify-content: center; }
+  .topbar__item { padding-inline: 1.4rem; }
+  .hero__greviews { gap: 10px; padding: 10px 16px; margin-bottom: 22px; }
+  .greviews__word { font-size: 1.45rem; }
+  .greviews__label { font-size: 1.2rem; }
+  .greviews__stars { font-size: 1.05rem; letter-spacing: 2px; }
   .header__cta { display: none; }
   .header { backdrop-filter: none; }   /* avoid creating a containing block for the fixed nav */
   .nav { position: fixed; inset: 0 0 0 auto; width: min(82vw, 320px); height: 100dvh; z-index: 55;
