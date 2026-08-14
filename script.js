@@ -255,3 +255,97 @@ var openSheet = function () {};
     el.addEventListener('touchend', onEnd);
   });
 })();
+
+// Offer package selector — injected into booking/quote forms only, so it's identical everywhere.
+// Short "Request a Callback" forms (name + phone + message) are left untouched.
+(function buildOfferPackages() {
+  const pkgHTML =
+    '<fieldset class="pkg-select">' +
+      '<legend>Choose your package <span class="req">*</span></legend>' +
+      '<label class="pkg-option">' +
+        '<input type="radio" name="package" value="essential" required />' +
+        '<span class="pkg-option__main">' +
+          '<span class="pkg-badge">Most Popular</span>' +
+          '<span class="pkg-option__name">Essential Vent &amp; Duct Cleaning</span>' +
+        '</span>' +
+        '<span class="pkg-price">$249</span>' +
+      '</label>' +
+      '<label class="pkg-option">' +
+        '<input type="radio" name="package" value="dryer-airflow" required />' +
+        '<span class="pkg-option__main">' +
+          '<span class="pkg-option__name">Dryer Vent &amp; Airflow Service</span>' +
+        '</span>' +
+        '<span class="pkg-price">$89</span>' +
+      '</label>' +
+      '<label class="pkg-option">' +
+        '<input type="radio" name="package" value="bundle" required />' +
+        '<span class="pkg-option__main">' +
+          '<span class="pkg-badge pkg-badge--value">Best Value</span>' +
+          '<span class="pkg-option__name">Air Duct + Dryer Vent Bundle</span>' +
+        '</span>' +
+        '<span class="pkg-price">$299</span>' +
+      '</label>' +
+      '<p class="pkg-error" role="alert" hidden>Please choose a package to continue.</p>' +
+    '</fieldset>' +
+    '<div class="other-services" aria-hidden="true">' +
+      '<p class="other-services__title">Other services you may need&hellip;</p>' +
+      '<div class="other-services__opts">' +
+        '<label class="other-services__opt"><input type="checkbox" name="addon" value="gutter" /> <span>Gutter Cleaning</span></label>' +
+        '<label class="other-services__opt"><input type="checkbox" name="addon" value="chimney" /> <span>Chimney Cleaning</span></label>' +
+      '</div>' +
+      '<p class="other-services__note">Interested? We&rsquo;ll Inspect &amp; Quote It On-Site &mdash; No Obligation.</p>' +
+    '</div>';
+
+  const badgeHTML =
+    '<p class="form-assurance"><span class="form-assurance__ico">&#10004;</span> ' +
+    'Insured + Qualified Technicians &middot; Same-Day Service Available Upon Request</p>';
+
+  document.querySelectorAll('form.offer-form').forEach((form) => {
+    // Only booking/quote forms carry a service address field — skip the short callback forms.
+    if (!form.querySelector('input[name="address"]')) return;
+
+    // Drop the old checkbox service picker if present (home hero) — replaced by the packages.
+    const oldServices = form.querySelector('.offer-form__services');
+    if (oldServices) oldServices.remove();
+
+    // Insert package selector + other-services block at the very top of the form.
+    const tmp = document.createElement('div');
+    tmp.innerHTML = pkgHTML;
+    const frag = document.createDocumentFragment();
+    while (tmp.firstChild) frag.appendChild(tmp.firstChild);
+    form.insertBefore(frag, form.firstChild);
+
+    // Assurance badge at the bottom of the card.
+    const badgeWrap = document.createElement('div');
+    badgeWrap.innerHTML = badgeHTML;
+    form.appendChild(badgeWrap.firstChild);
+
+    const other = form.querySelector('.other-services');
+    const fieldset = form.querySelector('.pkg-select');
+    const err = form.querySelector('.pkg-error');
+
+    // Reveal "other services" (with animation) once a package is chosen.
+    form.querySelectorAll('input[name="package"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (other) {
+          other.classList.add('is-visible');
+          other.setAttribute('aria-hidden', 'false');
+        }
+        if (fieldset) fieldset.classList.remove('has-error');
+        if (err) err.hidden = true;
+      });
+    });
+
+    // Forms use novalidate, so enforce "pick a package" ourselves on submit.
+    form.addEventListener('submit', (e) => {
+      if (!form.querySelector('input[name="package"]:checked')) {
+        e.preventDefault();
+        if (fieldset) {
+          fieldset.classList.add('has-error');
+          fieldset.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (err) err.hidden = false;
+      }
+    });
+  });
+})();
