@@ -482,8 +482,8 @@ a.post-featured:hover { transform: translateY(-4px); }
 /* ---------- Footer ---------- */
 .footer { background: #12261a; color: #b9c9bd; }
 .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 34px; padding-block: 52px; }
-.footer__brand img { height: 50px; width: auto; background: #fff; padding: 8px 12px; border-radius: 10px; margin-bottom: 14px; }
-.footer__brand p { font-size: .9rem; margin-bottom: 12px; max-width: 32ch; }
+.footer__brand img { height: 104px; width: auto; margin-bottom: 14px; }
+.footer__brand p { font-size: .9rem; margin-bottom: 12px; max-width: 32ch; text-transform: uppercase; letter-spacing: .3px; }
 .footer__badges { font-family: "Poppins"; font-weight: 600; font-size: .8rem; color: var(--gold); letter-spacing: .5px; }
 .footer__col h4 { color: #fff; font-family: "Poppins"; font-size: .95rem; margin-bottom: 14px; }
 .footer__col a, .footer__col span { display: block; font-size: .9rem; margin-bottom: 9px; color: #b9c9bd; }
