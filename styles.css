@@ -588,6 +588,7 @@ a.post-featured:hover { transform: translateY(-4px); }
   .footer__grid > .footer__col:nth-of-type(3),
   .footer__grid > .footer__col:nth-of-type(4) { display: none; }
   .footer__contact { display: block; margin-top: 6px; }
+  .topbar__track { animation-duration: 34s; }
 }
 
 /* ============================================================
