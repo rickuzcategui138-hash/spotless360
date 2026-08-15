@@ -485,9 +485,21 @@ a.post-featured:hover { transform: translateY(-4px); }
 .footer__brand img { height: 104px; width: auto; margin-bottom: 14px; }
 .footer__brand p { font-size: .9rem; margin-bottom: 12px; max-width: 32ch; text-transform: uppercase; letter-spacing: .3px; }
 .footer__badges { font-family: "Poppins"; font-weight: 600; font-size: .8rem; color: var(--gold); letter-spacing: .5px; }
+/* Where We Serve — city list + note (mobile & desktop) */
+.footer__areas { border-top: 1px solid rgba(255,255,255,.08); margin-top: 8px; padding-top: 28px; }
+.footer__areas h4 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: .95rem; color: #fff; margin-bottom: 12px; }
+.footer__cities { font-size: .82rem; line-height: 1.95; color: #b9c9bd; }
+.footer__areas-note { font-size: .82rem; line-height: 1.6; color: #8fa595; margin-top: 14px; max-width: 78ch; }
 .footer__col h4 { color: #fff; font-family: "Poppins"; font-size: .95rem; margin-bottom: 14px; }
 .footer__col a, .footer__col span { display: block; font-size: .9rem; margin-bottom: 9px; color: #b9c9bd; }
 .footer__col a:hover { color: var(--green); }
+/* Centered contact block (hours + phone + WhatsApp) — shown on mobile only */
+.footer__contact { display: none; text-align: center; padding-top: 22px; }
+.footer__hours { color: #fff; font-family: "Poppins", sans-serif; font-size: .98rem; line-height: 1.5; margin-bottom: 12px; }
+.footer__hours strong { font-weight: 600; }
+.footer__contact-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 26px; }
+.footer__contact-links a { font-family: "Poppins", sans-serif; font-weight: 600; font-size: .92rem; color: var(--gold); }
+.footer__contact-links a:hover { color: var(--green); }
 .footer__bottom { border-top: 1px solid rgba(255,255,255,.09); }
 .footer__bottom p { padding-block: 18px; font-size: .82rem; text-align: center; color: #8ba090; }
 
@@ -565,6 +577,17 @@ a.post-featured:hover { transform: translateY(-4px); }
   .steps { grid-template-columns: 1fr; }
   .benefits { grid-template-columns: 1fr; }
   .post-grid { grid-template-columns: 1fr; }
+  /* Footer (mobile): logo centered full-width on top; tagline (left) and
+     Services (right) start at the same top level. Keeps 2 columns. */
+  .footer__grid { grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 22px; }
+  .footer__brand { display: contents; }
+  .footer__brand img { grid-column: 1 / -1; justify-self: center; height: 150px; margin: 0 0 4px; }
+  .footer__brand p { grid-column: 1; grid-row: 2; margin-bottom: 10px; }
+  .footer__badges { grid-column: 1; grid-row: 3; align-self: start; }
+  .footer__grid > .footer__col:nth-of-type(2) { grid-column: 2; grid-row: 2 / span 2; }
+  .footer__grid > .footer__col:nth-of-type(3),
+  .footer__grid > .footer__col:nth-of-type(4) { display: none; }
+  .footer__contact { display: block; margin-top: 6px; }
 }
 
 /* ============================================================
