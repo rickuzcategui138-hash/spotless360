@@ -76,8 +76,8 @@ a { color: inherit; text-decoration: none; }
 .topbar:hover .topbar__track { animation-play-state: paused; }
 
 @keyframes topbar-scroll {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
   .topbar__track { animation: none; }
