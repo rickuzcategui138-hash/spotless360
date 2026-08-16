@@ -522,6 +522,7 @@ a.post-featured:hover { transform: translateY(-4px); }
 @media (max-width: 960px) {
   .hero__grid { grid-template-columns: 1fr; gap: 34px; }
   .about__grid, .contact__grid { grid-template-columns: 1fr; gap: 32px; }
+  .about__media img.about__photo { aspect-ratio: auto; height: 340px; object-fit: cover; object-position: center 30%; }
   .cards--4 { grid-template-columns: repeat(2, 1fr); }
   .cards--split { grid-template-columns: repeat(2, 1fr); }
   .cards--split > .card:nth-child(n) { grid-column: auto; }
