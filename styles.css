@@ -488,7 +488,7 @@ a.post-featured:hover { transform: translateY(-4px); }
 /* ---------- Footer ---------- */
 .footer { background: #12261a; color: #b9c9bd; }
 .footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 34px; padding-block: 52px; }
-.footer__brand img { height: 104px; width: auto; margin-bottom: 14px; }
+.footer__brand img { height: 104px; width: auto; margin-bottom: 14px; border-radius: 16px; }
 .footer__brand p { font-size: .9rem; margin-bottom: 12px; max-width: 32ch; text-transform: uppercase; letter-spacing: .3px; }
 .footer__badges { font-family: "Poppins"; font-weight: 600; font-size: .8rem; color: var(--gold); letter-spacing: .5px; }
 /* Where We Serve — city list + note (mobile & desktop) */
