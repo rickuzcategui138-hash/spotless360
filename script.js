@@ -203,10 +203,10 @@ var openSheet = function () {};
       link('blog.html', 'Blog') +
       link('index.html#quote', 'Schedule Online') +
       '<div class="sheet__section">Services</div>' +
-      link('air-duct-cleaning-repair.html', 'Air Duct Cleaning &amp; Repair', true) +
-      link('dryer-vent-cleaning-repair.html', 'Dryer Vent Cleaning &amp; Repair', true) +
-      link('chimney-cleaning-repair.html', 'Chimney Cleaning &amp; Repair', true) +
-      link('gutter-cleaning-repair.html', 'Gutter Cleaning &amp; Repair', true) +
+      link('air-duct-cleaning-repair.html', 'Air Duct Cleaning &amp; Maintenance', true) +
+      link('dryer-vent-cleaning-repair.html', 'Dryer Vent Cleaning &amp; Maintenance', true) +
+      link('chimney-cleaning-repair.html', 'Chimney Cleaning &amp; Maintenance', true) +
+      link('gutter-cleaning-repair.html', 'Gutter Cleaning &amp; Maintenance', true) +
       link('services.html', 'View all services', true) +
       '<a class="sheet__call" href="tel:+14706604517">' + phoneIco + '<span>(470) 660-4517</span></a>' +
     '</div>';
