@@ -149,7 +149,7 @@ if (yearEl) yearEl.textContent = new Date().getFullYear();
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) close(); });
   modal.querySelector('.promo__btn--primary').addEventListener('click', close);
 
-  setTimeout(open, 5000);
+  setTimeout(open, 7000);
 })();
 
 // Header mobile CTAs — Call + Schedule (injected so they're identical on every page)

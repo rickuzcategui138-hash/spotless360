@@ -798,7 +798,7 @@ body.sheet-open .bottom-nav { display: none; }
   display: grid; place-items: center; padding: 20px;
   background: rgba(9, 16, 9, .64);
   opacity: 0; visibility: hidden;
-  transition: opacity .3s ease, visibility .3s ease;
+  transition: opacity .55s ease, visibility .55s ease;
 }
 .promo.open { opacity: 1; visibility: visible; }
 
@@ -809,10 +809,10 @@ body.sheet-open .bottom-nav { display: none; }
   border-radius: 20px;
   padding: 42px 28px 28px; text-align: center;
   box-shadow: 0 30px 70px -20px rgba(0,0,0,.7);
-  transform: translateY(18px) scale(.97);
-  transition: transform .3s cubic-bezier(.22,.61,.36,1);
+  opacity: 0; transform: translateY(26px) scale(.96);
+  transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .5s ease;
 }
-.promo.open .promo__card { transform: none; }
+.promo.open .promo__card { opacity: 1; transform: none; }
 
 .promo__close {
   position: absolute; top: 14px; right: 14px;
