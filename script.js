@@ -259,6 +259,15 @@ var openSheet = function () {};
 // Offer package selector — injected into booking/quote forms only, so it's identical everywhere.
 // Short "Request a Callback" forms (name + phone + message) are left untouched.
 (function buildOfferPackages() {
+  // Each package shows a "?" info dot; hovering (or focusing / tapping) it reveals what's included.
+  const tip = (label, items) =>
+    '<span class="pkg-info" tabindex="0" role="button" aria-label="See what ' + label + ' includes">' +
+      '<span class="pkg-info__ico" aria-hidden="true">?</span>' +
+      '<span class="pkg-tip" role="tooltip"><ul>' +
+        items.map((i) => '<li>' + i + '</li>').join('') +
+      '</ul></span>' +
+    '</span>';
+
   const pkgHTML =
     '<fieldset class="pkg-select">' +
       '<legend>Choose your package <span class="req">*</span></legend>' +
@@ -266,14 +275,35 @@ var openSheet = function () {};
         '<input type="radio" name="package" value="essential" required />' +
         '<span class="pkg-option__main">' +
           '<span class="pkg-badge">Most Popular</span>' +
-          '<span class="pkg-option__name">Essential Vent &amp; Duct Cleaning</span>' +
+          '<span class="pkg-option__name">Essential Vent &amp; Duct Cleaning' +
+            tip('Essential Vent &amp; Duct Cleaning', [
+              'Supply duct cleaning',
+              'Main return cleaning',
+              'Vent cover cleaning',
+              'Professional negative-air equipment',
+              'Whole-System Check-Up + AC Mold Inspection + Airflow Test',
+              'Complimentary dryer vent inspection',
+              'Before &amp; after photos (upon request)',
+              'Complete service coverage for one HVAC system'
+            ]) +
+          '</span>' +
         '</span>' +
         '<span class="pkg-price">$249</span>' +
       '</label>' +
       '<label class="pkg-option">' +
         '<input type="radio" name="package" value="dryer-airflow" required />' +
         '<span class="pkg-option__main">' +
-          '<span class="pkg-option__name">Dryer Vent &amp; Airflow Service</span>' +
+          '<span class="pkg-option__name">Dryer Vent &amp; Airflow Service' +
+            tip('Dryer Vent &amp; Airflow Service', [
+              'Lint &amp; debris removal',
+              'Exterior vent inspection',
+              'Airflow test',
+              'Dryer connection inspection',
+              'Up to 10 ft. of vent line &mdash; main-level access',
+              'Before &amp; after photos (upon request)',
+              'Safety-focused visual inspection'
+            ]) +
+          '</span>' +
         '</span>' +
         '<span class="pkg-price">$89</span>' +
       '</label>' +
@@ -281,7 +311,15 @@ var openSheet = function () {};
         '<input type="radio" name="package" value="bundle" required />' +
         '<span class="pkg-option__main">' +
           '<span class="pkg-badge pkg-badge--value">Best Value</span>' +
-          '<span class="pkg-option__name">Air Duct + Dryer Vent Bundle</span>' +
+          '<span class="pkg-option__name">Air Duct + Dryer Vent Bundle' +
+            tip('Air Duct + Dryer Vent Bundle', [
+              'Everything included in both packages',
+              'Essential Vent &amp; Duct Cleaning',
+              'Dryer Vent &amp; Airflow Service',
+              'FREE organic deodorizer',
+              'Save when you bundle both services!'
+            ]) +
+          '</span>' +
         '</span>' +
         '<span class="pkg-price">$299</span>' +
       '</label>' +
@@ -314,6 +352,22 @@ var openSheet = function () {};
     const frag = document.createDocumentFragment();
     while (tmp.firstChild) frag.appendChild(tmp.firstChild);
     form.insertBefore(frag, form.firstChild);
+
+    // The info dot lives inside the <label>, so a click would otherwise tick the radio.
+    // Swallow it, and toggle .is-open so touch devices (no hover) can read the tip too.
+    form.querySelectorAll('.pkg-info').forEach((info) => {
+      info.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const wasOpen = info.classList.contains('is-open');
+        form.querySelectorAll('.pkg-info.is-open').forEach((o) => o.classList.remove('is-open'));
+        if (!wasOpen) info.classList.add('is-open');
+      });
+      info.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); info.click(); }
+        if (e.key === 'Escape') info.classList.remove('is-open');
+      });
+    });
 
     // Assurance badge at the bottom of the card.
     const badgeWrap = document.createElement('div');
