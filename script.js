@@ -402,4 +402,24 @@ var openSheet = function () {};
       }
     });
   });
+
+  // Touch has no hover, so an open tip must be dismissible: tapping anywhere outside it closes it.
+  // Clicks on the dot itself never reach here — that handler stops propagation.
+  document.addEventListener('click', (e) => {
+    const open = document.querySelector('.pkg-info.is-open');
+    if (!open || open.contains(e.target)) return;
+    open.classList.remove('is-open');
+  });
+
+  // Escape closes it from anywhere, not just while the dot holds focus.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    document.querySelectorAll('.pkg-info.is-open').forEach((o) => o.classList.remove('is-open'));
+  });
+
+  // Scrolling away on mobile should not leave a stray panel floating over the form.
+  window.addEventListener('scroll', () => {
+    const open = document.querySelector('.pkg-info.is-open');
+    if (open) open.classList.remove('is-open');
+  }, { passive: true });
 })();

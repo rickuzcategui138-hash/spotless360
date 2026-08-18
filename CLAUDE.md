@@ -183,6 +183,13 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 - **Verifying this in the Browser pane:** the pane does not composite frames, so CSS transitions
   freeze at their start value and `opacity` reads 0 even when the rule applied. Set
   `el.style.transition='none'` before measuring, or you will chase a bug that isn't there.
+- **Dismissal (added right after):** outside click, Escape and scroll all close an open tip, via
+  document-level listeners registered once at the end of the IIFE.
+- **`pointer-events` gotcha:** the base `.pkg-tip` sets `pointer-events: none`, and the `.is-open`
+  rule originally did not undo it — the panel looked solid but taps passed straight through it and
+  hit the controls underneath (a user tapped to dismiss and ticked the Chimney add-on instead).
+  `.pkg-info.is-open .pkg-tip { pointer-events: auto; }` fixes it. Hover keeps `none` on purpose so
+  a desktop tooltip never blocks what it covers.
 
 ## TODO / next steps
 
