@@ -138,6 +138,15 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 - Total icon payload **880 KB → 196 KB** (78% less); the header dropdown alone went ~790 KB → ~155 KB.
 - Display size is 62px max (`.card__icon` / `.svc__ico`), so 160px covers retina.
 
+**about.html "Proudly Serving Georgia" (service area)**
+- Chip list went from 8 hand-picked cities to **all 60** + the statewide "Georgia" chip, generated
+  from the footer's `.footer__cities` string so the two lists cannot drift.
+- Section container changed `container container--narrow` (800px) → **`container`** (1180px) so the
+  chips run wide instead of tall: 11 rows/546px → **7 rows/344px** at 1440px viewport. The heading
+  is unaffected — `.section__head` has its own 640px cap.
+- **Mobile still stacks to ~1590px tall** (26 rows at 375px). Left as-is; if it needs compacting,
+  shrink the chip font/padding under 560px or truncate with a "show all" toggle.
+
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
