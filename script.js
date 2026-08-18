@@ -261,12 +261,21 @@ var openSheet = function () {};
 (function buildOfferPackages() {
   // Each package shows a "?" info dot; hovering (or focusing / tapping) it reveals what's included.
   const tip = (label, items) =>
-    '<span class="pkg-info" tabindex="0" role="button" aria-label="See what ' + label + ' includes">' +
+    '<span class="pkg-info" tabindex="0" role="button" aria-expanded="false" aria-label="See what ' + label + ' includes">' +
       '<span class="pkg-info__ico" aria-hidden="true">?</span>' +
       '<span class="pkg-tip" role="tooltip"><ul>' +
         items.map((i) => '<li>' + i + '</li>').join('') +
       '</ul></span>' +
     '</span>';
+
+
+  // Class + aria kept in sync — the dot is a real expandable control, not decoration.
+  const setTipOpen = (info, open) => {
+    info.classList.toggle('is-open', open);
+    info.setAttribute('aria-expanded', String(open));
+  };
+  const closeAllTips = () =>
+    document.querySelectorAll('.pkg-info.is-open').forEach((o) => setTipOpen(o, false));
 
   const pkgHTML =
     '<fieldset class="pkg-select">' +
@@ -354,18 +363,18 @@ var openSheet = function () {};
     form.insertBefore(frag, form.firstChild);
 
     // The info dot lives inside the <label>, so a click would otherwise tick the radio.
-    // Swallow it, and toggle .is-open so touch devices (no hover) can read the tip too.
+    // Swallow it and toggle the panel — the tip is click-only, hover just tints the dot.
     form.querySelectorAll('.pkg-info').forEach((info) => {
       info.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
         const wasOpen = info.classList.contains('is-open');
-        form.querySelectorAll('.pkg-info.is-open').forEach((o) => o.classList.remove('is-open'));
-        if (!wasOpen) info.classList.add('is-open');
+        closeAllTips();
+        if (!wasOpen) setTipOpen(info, true);
       });
       info.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); info.click(); }
-        if (e.key === 'Escape') info.classList.remove('is-open');
+        if (e.key === 'Escape') setTipOpen(info, false);
       });
     });
 
@@ -403,23 +412,19 @@ var openSheet = function () {};
     });
   });
 
-  // Touch has no hover, so an open tip must be dismissible: tapping anywhere outside it closes it.
+  // The tip is click-only, so it needs explicit ways out.
   // Clicks on the dot itself never reach here — that handler stops propagation.
   document.addEventListener('click', (e) => {
-    const open = document.querySelector('.pkg-info.is-open');
-    if (!open || open.contains(e.target)) return;
-    open.classList.remove('is-open');
+    const shown = document.querySelector('.pkg-info.is-open');
+    if (!shown || shown.contains(e.target)) return;
+    setTipOpen(shown, false);
   });
 
   // Escape closes it from anywhere, not just while the dot holds focus.
   document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    document.querySelectorAll('.pkg-info.is-open').forEach((o) => o.classList.remove('is-open'));
+    if (e.key === 'Escape') closeAllTips();
   });
 
   // Scrolling away on mobile should not leave a stray panel floating over the form.
-  window.addEventListener('scroll', () => {
-    const open = document.querySelector('.pkg-info.is-open');
-    if (open) open.classList.remove('is-open');
-  }, { passive: true });
+  window.addEventListener('scroll', closeAllTips, { passive: true });
 })();

@@ -188,8 +188,15 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 - **`pointer-events` gotcha:** the base `.pkg-tip` sets `pointer-events: none`, and the `.is-open`
   rule originally did not undo it — the panel looked solid but taps passed straight through it and
   hit the controls underneath (a user tapped to dismiss and ticked the Chimney add-on instead).
-  `.pkg-info.is-open .pkg-tip { pointer-events: auto; }` fixes it. Hover keeps `none` on purpose so
-  a desktop tooltip never blocks what it covers.
+  `.pkg-info.is-open .pkg-tip { pointer-events: auto; }` fixes it (folded into the show rule once the
+  panel became click-only).
+- **Click-only (changed after first release):** hover no longer opens the panel — it only restyles the
+  dot. Showing is driven by `.is-open` (click/tap) and `:focus-visible` (keyboard). `cursor` went
+  `help` → `pointer`, and the dot carries `aria-expanded`, kept in sync by the `setTipOpen()` /
+  `closeAllTips()` helpers — every open/close path goes through them so class and aria can't drift.
+- **Dot styling:** at 16px a border-colour change was invisible, so hover/open flips the whole dot to
+  a filled `--green-dark` circle with a white glyph, `scale(1.18)` and a soft ring. The scale is a
+  `transform`, so the 57px option row does not shift. `prefers-reduced-motion` drops the transition.
 
 ## TODO / next steps
 

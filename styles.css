@@ -222,15 +222,19 @@ a { color: inherit; text-decoration: none; }
 
 /* Info dot + "what's included" tooltip on each package */
 .pkg-option__name { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.pkg-info { display: inline-flex; flex: none; cursor: help; }   /* static: tip anchors to .pkg-option */
+.pkg-info { display: inline-flex; flex: none; cursor: pointer; }  /* static: tip anchors to .pkg-option */
 .pkg-info__ico { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--muted);
-  color: var(--muted); font-family: "Poppins", sans-serif; font-weight: 700; font-size: .64rem;
-  line-height: 1; display: grid; place-items: center; transition: border-color .15s, color .15s; }
+  background: transparent; color: var(--muted); font-family: "Poppins", sans-serif; font-weight: 700;
+  font-size: .64rem; line-height: 1; display: grid; place-items: center;
+  transition: border-color .15s, background-color .15s, color .15s, transform .15s, box-shadow .15s; }
+/* Hover/open flips it to a filled dot — a border tint alone was too faint at 16px. */
 .pkg-info:hover .pkg-info__ico,
 .pkg-info:focus-visible .pkg-info__ico,
-.pkg-info.is-open .pkg-info__ico { border-color: var(--green); color: var(--green); }
+.pkg-info.is-open .pkg-info__ico { border-color: var(--green-dark); background: var(--green-dark);
+  color: #fff; transform: scale(1.18); box-shadow: 0 0 0 3px rgba(47,93,30,.16); }
 .pkg-info:focus { outline: none; }
 .pkg-info:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 50%; }
+@media (prefers-reduced-motion: reduce) { .pkg-info__ico { transition: none; } }
 
 .pkg-tip { position: absolute; left: 12px; right: 12px; bottom: calc(100% + 8px);
   background: var(--ink); color: #fff; border-radius: 10px; padding: 11px 13px;
@@ -241,11 +245,11 @@ a { color: inherit; text-decoration: none; }
 .pkg-tip ul { list-style: none; display: grid; gap: 5px; margin: 0; padding: 0; }
 .pkg-tip li { position: relative; padding-left: 15px; }
 .pkg-tip li::before { content: "\2713"; position: absolute; left: 0; color: #5fd97b; font-weight: 700; }
-.pkg-info:hover .pkg-tip,
+/* Click-only: hover just tints the dot. An open panel absorbs its own clicks, or they
+   would fall through to the controls underneath it. */
 .pkg-info:focus-visible .pkg-tip,
-.pkg-info.is-open .pkg-tip { opacity: 1; visibility: visible; transform: translateY(0); }
-/* Tapped-open panel must absorb taps, or they fall through to the controls underneath. */
-.pkg-info.is-open .pkg-tip { pointer-events: auto; }
+.pkg-info.is-open .pkg-tip { opacity: 1; visibility: visible; transform: translateY(0);
+  pointer-events: auto; }
 
 /* First card has no room above it inside the form — drop its tip below instead. */
 .pkg-option:first-of-type .pkg-tip { bottom: auto; top: calc(100% + 8px); }
