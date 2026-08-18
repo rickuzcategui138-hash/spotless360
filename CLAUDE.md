@@ -147,6 +147,19 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 - **Mobile still stacks to ~1590px tall** (26 rows at 375px). Left as-is; if it needs compacting,
   shrink the chip font/padding under 560px or truncate with a "show all" toggle.
 
+**Hero eyebrow + Our Promise icon**
+- `index.html` hero eyebrow: "🥇 Ask About Our First-Time Customer Special Offers!" →
+  **"BEYOND CLEAN, SPOTLESS 360."** Uppercased in the markup itself (not `text-transform`) so screen
+  readers and copy/paste get the caps too. The medal emoji was dropped with the offer wording.
+  Still inherits the promo-orange `#ff9d5c` from `.hero--photo .hero__eyebrow` (styles.css:906) —
+  revisit if a brand tagline wants a different colour.
+- `about.html` "Our Promise" head icon → **`icon-promise.png`** (house + check in a hand), from
+  `Icons 2/Icon 55.svg`. That one is a **single 1254×1254 image, not a sprite** — same crop recipe,
+  2028 KB → 31.7 KB. Uses the existing `.svc__ico--badge`.
+- **Still on the old flat green glyphs:** the `.svc__ico` head on the 4 service pages
+  (`air-duct|dryer-vent|chimney|gutter-cleaning-repair.html`, line ~278). The matching branded PNGs
+  already exist — swap them for consistency when convenient.
+
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
