@@ -160,8 +160,23 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   (`air-duct|dryer-vent|chimney|gutter-cleaning-repair.html`, line ~278). The matching branded PNGs
   already exist — swap them for consistency when convenient.
 
+**Home pricing section (`#pricing`, index.html between Services and About)**
+- Three `.price-card`s: Essential Vent & Duct Cleaning **$249** (Most Popular), Dryer Vent & Airflow
+  Service **$89**, Air Duct + Dryer Vent Bundle **$299** (Best Value). CTAs anchor to `#quote`.
+- Names/prices/badges are **deliberately identical to the `script.js buildOfferPackages` radio
+  options** — if a price changes it must change in BOTH places or the site contradicts itself.
+- New CSS block at the end of `styles.css`. Cards are flex columns with `.price-card__list { flex:1 }`
+  so all three stay equal height despite 7/6/5 bullets. Stacks to one 460px-max column under 900px.
+- Copy came from the user verbatim except a typo fix: "organic dodorizer" → **deodorizer**.
+- **No fine print yet.** The reference screenshot had disclaimers (per-HVAC-unit pricing, dryer-vent
+  footage limits); those are commercial terms and were NOT invented. Add them under the grid when
+  the client supplies the wording.
+- No "Prices" nav link was added.
+
 ## TODO / next steps
 
+- [ ] **Pricing fine print** — `#pricing` on the home publishes $249/$89/$299 with no conditions.
+      Get the per-HVAC-unit / dryer-vent-footage disclaimers from the client and add them.
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
 - [ ] **Airflow Test & AC Mold Inspection** has no dedicated page (home card → `#quote`). Build one, or
       point it to `services.html`.
