@@ -68,8 +68,8 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   only (those with an address field); short "Request a Callback" forms untouched.
 - 5 service cards (added **Airflow Test & AC Mold Inspection**), grid laid out **2 top / 3 bottom**
   (`cards--split`). Cards link to their service pages ("Learn more →"); Airflow → `#quote` (no page).
-- Custom circular **badge icons**: `icon-airduct.svg`, `icon-dryer.svg`, `icon-chimney.svg`,
-  `icon-gutter.svg`, `icon-airflow.svg` (embedded-raster SVGs). Same icons on services.html heads
+- Custom circular **badge icons**: `icon-airduct.png`, `icon-dryer.png`, `icon-chimney.png`,
+  `icon-gutter.png`, `icon-airflow.png` (see 2026-08-17 — were embedded-raster SVGs). Same icons on services.html heads
   (`.svc__ico--badge` / `.card__icon--badge` remove the old green square).
 - About: new photo `assets/about-team.jpg`; desktop photo height matches the text column
   (`@media (min-width:961px)` absolute-fill), mobile capped 340px. Stat "5.0 Google rating" →
@@ -89,7 +89,7 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 **Footer (responsive)**
 - Logo `logo-stacked.png` (green "360", white bg) with `border-radius:16px`.
 - Tagline **"GEORGIA'S NEW STANDARD FOR PROPERTY CARE."** (uppercased via CSS).
-- Badge "Licensed + Qualified Technicians You Can Count On". Copyright "© 2026 Spotless360. All
+- Badge "Insured + Qualified Technicians You Can Count On". Copyright "© 2026 Spotless360. All
   rights reserved." Contact card "Proudly Serving Georgia". Hours 7 AM–7 PM.
 - **"Where We Serve"** section (`.footer__areas`) listing the 60 cities + note.
 - **Desktop:** 4 columns (brand · Services · Company · Get in Touch) + Where We Serve.
@@ -104,6 +104,39 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 **Social preview**
 - OG image is **`assets/og-logo-white.png`** (footer logo centered on a white 1200×630 canvas),
   referenced by `og:image`/`twitter:image` on all pages. (Old `og-image.png` / `og-logo.png` unused.)
+
+## Session changes — 2026-08-17 (icons + insurance wording)
+
+**Header dropdown icons**
+- The Services dropdown used generic inline SVG glyphs; now uses the real circular badge icons
+  (`.dropdown__ico--badge` added to `styles.css` to drop the green tinted square). All 9 pages.
+- **No `loading="lazy"` on these** — the dropdown is `visibility:hidden` until hover, so lazy images
+  never start downloading and the icons render blank on first open.
+
+**Insurance wording (no license is claimed anywhere anymore)**
+- about.html values card: "Licensed & Insured" → **"Fully Insured"** / "Properly insured for your
+  protection and peace of mind on every job."
+- Footer badge (9 pages): "Licensed + …" → **"Insured + Qualified Technicians You Can Count On"**
+  (matches the header trust strip).
+- services.html FAQ: "Are your technicians licensed and insured?" → **"Are your technicians insured?"**;
+  answer "licensed, bonded and insured" → **"fully insured"**. Changed in **both** the visible
+  `<details>` and the **FAQPage JSON-LD** — they duplicate the copy, so both must move together.
+- Verified: zero case-insensitive matches for `licens` across `*.html` + `script.js`.
+
+**about.html "What Makes Spotless360 Different" — new icons**
+- Source `Ricardo/Icons/Icons 2/Icon 11|22|33|44.svg` → `icon-insured.png`, `icon-vetted.png`,
+  `icon-pricing.png`, `icon-guarantee.png` (order in the sprite matches the card order).
+
+**Icon weight — all icons are now 160×160 PNGs (~40 KB each)**
+- The supplied SVGs each embedded a full raster sprite: the 4 new ones were **1.4 MB each** (all four
+  embedded the *same* 1774×887 sheet, cropped via the `<pattern>` transform); the 5 service ones were
+  ~193 KB each and embedded **JPEG**, not PNG — worth remembering when parsing them.
+- Recipe (no node/python here — PowerShell `System.Drawing`): parse `transform="translate(tx ty)
+  scale(s)"`, crop a `1/s` square at `(-tx/s, -ty/s)` from the embedded raster, draw into a 160×160
+  bitmap with an ellipse clip so the corners are transparent, save PNG.
+- `icon-airduct|dryer|chimney|gutter|airflow.svg` **deleted**; every reference now `.png`.
+- Total icon payload **880 KB → 196 KB** (78% less); the header dropdown alone went ~790 KB → ~155 KB.
+- Display size is 62px max (`.card__icon` / `.svc__ico`), so 160px covers retina.
 
 ## TODO / next steps
 
