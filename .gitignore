@@ -9,3 +9,7 @@ node_modules/
 # Env / local
 .env
 .env.local
+
+# Client review videos — HEVC .mov, 67 MB total. Local preview only; they are
+# going to a real video host. NEVER commit these: git keeps large blobs forever.
+assets/review-*.mov

@@ -8,10 +8,12 @@
 Marketing website for **Spotless360**, Georgia's experts for **air duct, dryer vent, chimney and
 gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS**, no build step.
 
-- **Live:** https://rickuzcategui138-hash.github.io/spotless360/
-- **Repo:** https://github.com/rickuzcategui138-hash/spotless360 (public, GitHub Pages from `main`)
+- **Live:** https://spotless360ga.com (Namecheap cPanel shared hosting, docroot `/public_html`)
+- **Repo:** https://github.com/rickuzcategui138-hash/spotless360 — source only, NOT the deploy path
 - **Local path:** `C:\Users\Rick\Documents\Proyectos\Ricardo\spotless360`
-- **Deploy:** `git push` → Pages rebuilds automatically in ~1 min. Nothing else.
+- **Deploy:** run the `deploy.ps1` script (FTPS). `git push` publishes NOTHING now. GitHub Pages
+  served the site until 2026-08-19 and should be turned off (Settings → Pages → Source: None) so
+  it stops competing with the domain.
 
 ## Working rules (important)
 
@@ -198,16 +200,69 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   a filled `--green-dark` circle with a white glyph, `scale(1.18)` and a soft ring. The scale is a
   `transform`, so the 57px option row does not shift. `prefers-reduced-motion` drops the transition.
 
+
+## Session changes — 2026-08-19 (moved to real hosting + carousel + video reviews)
+
+**Hosting migration — spotless360ga.com**
+- `spotless360.com` is a DIFFERENT company (a mobile-detailing WordPress in Hawaii). The home page
+  used to declare it as `canonical`, handing its ranking signals to that unrelated site. Fixed.
+- All **65 absolute self-URLs** across the 9 pages now point at `https://spotless360ga.com/`
+  (canonical, `og:url`, `og:image`, `twitter:image`, JSON-LD `url`/`image`). The `/spotless360/`
+  path segment from Pages is gone — the site is served from the domain root.
+- Added **`robots.txt`** and **`sitemap.xml`** (9 URLs, home 1.0 → services 0.9 → blog 0.5).
+- SSL: Namecheap issued `CN=spotless360ga.com` (SSL.com) and HTTP→HTTPS redirect is on.
+
+**Deploy: `deploy.ps1` over FTPS — the gotchas that cost the most time**
+- Command: `deploy.ps1 -FtpHost server315-4.web-hosting.com -User spotless360ga@spotless360ga.com -RemoteDir /`
+- **Connect to `server315-4.web-hosting.com`, NOT `ftp.spotless360ga.com`.** The FTP server presents
+  a `*.web-hosting.com` cert; the domain name fails TLS validation ("remote certificate is invalid").
+  Using the server's own hostname keeps verification fully on — no need to disable cert checks.
+- **`KeepAlive = $false` + retries.** With pooled connections the server 451s on roughly every third
+  file ("Local error in processing"). First run landed 32/47; with a fresh connection per file and up
+  to 4 attempts it is 51/51. Most files still report `(retry 1)` — that is expected here.
+- The FTP account is chrooted, so `-RemoteDir /` **is** `public_html`. Use `-ListRemote` to confirm
+  where an account actually lands before writing (cPanel defaults a new FTP account to a subfolder
+  named after itself, which is NOT the docroot).
+- Credentials: `-SaveCredential` stores them via DPAPI under `%LOCALAPPDATA%\spotless360\`, keyed by
+  host — outside the site folder so they can never be swept into a commit or a deploy.
+- Excludes `.git`, `.github`, `*.md`, `.gitignore`, `deploy.ps1`, `review-*.mov`.
+
+**"Our Work" is a carousel now (was a 3-photo grid)**
+- 9 before/after photos `work-01..09.jpg`, one at a time, auto-advance 2 s, arrows OUTSIDE the frame
+  (grid areas; they drop below the photo under 700px), swipe, arrow keys, hover/focus pause, counter.
+- **Infinite forward loop via clones:** a copy of slide 9 sits before slide 1 and a copy of slide 1
+  after slide 9. Stepping past either end animates onto a clone, then teleports (transition off) to
+  the real slide — so 9→1 moves forward instead of rewinding 8 slides.
+- **`transitionend` is not guaranteed.** The `animating` latch it clears froze the carousel for good
+  when the event never fired. Every move now also arms a 620 ms fallback timer. Do not remove it.
+
+**Video reviews replaced the 3 invented testimonials (home only)**
+- The 4 service pages **still show those invented testimonials** — same problem, still published.
+- Source clips were **HEVC/H.265, 67 MB**: Chrome only decodes HEVC if the OS lends a codec and
+  Firefox not at all, so they showed empty players. Transcoded to **H.264 (720x960)** with the
+  built-in **`Windows.Media.Transcoding.MediaTranscoder`** via WinRT — no ffmpeg on this machine.
+  43.8 MB → 5.15 MB and 20.2 MB → 3.63 MB.
+- Posters extracted with `StorageFile.GetThumbnailAsync`. `MediaComposition` would give an exact
+  timestamp but PS 5.1 cannot use its `Clips` IVector (arrives as bare `__ComObject`, and casting to
+  `IList<T>` throws). Without a poster, mobile Safari renders a black box.
+- `preload="none"` + poster: the 9 MB is not fetched until someone presses play.
+- The `.mov` originals stay gitignored; the `.mp4` and posters are committed.
+
+**Still claimed without evidence:** "Rated 5.0 on Google" under the reviews heading, and JSON-LD
+`reviewCount: 127`. Same category as the testimonials that were just removed.
+
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
 - [ ] **Airflow Test & AC Mold Inspection** has no dedicated page (home card → `#quote`). Build one, or
       point it to `services.html`.
-- [ ] `index.html` canonical/JSON-LD `url` point to **`https://spotless360.com/`** but the live site is
-      github.io — align these (custom domain, or switch canonical to the Pages URL).
+- [x] ~~canonical/JSON-LD pointed at the wrong domain~~ — all 65 self-URLs now `spotless360ga.com`.
 - [ ] Decide whether to rename `-repair.html` files to `-maintenance.html` (needs redirects) or leave.
-- [ ] `sitemap.xml` + `robots.txt`.
-- [ ] JSON-LD `reviewCount` still `127`; "homes served" copy is `1249+`.
+- [x] ~~`sitemap.xml` + `robots.txt`~~ — added 2026-08-19.
+- [ ] JSON-LD `reviewCount` still `127`; "homes served" is `1249+`; "Rated 5.0 on Google" still on
+      the home. Unverified claims, same category as the testimonials that were removed.
+- [ ] Swap the 3 invented testimonials still live on the 4 service pages.
+- [ ] Turn GitHub Pages off, and submit the sitemap in Search Console.
 - [ ] Write remaining "coming soon" blog articles; per-service hero photos for Dryer/Chimney/Gutter.
 - [ ] Favicon from the new logo.
 

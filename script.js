@@ -428,3 +428,149 @@ var openSheet = function () {};
   // Scrolling away on mobile should not leave a stray panel floating over the form.
   window.addEventListener('scroll', closeAllTips, { passive: true });
 })();
+
+
+/* ============================================================
+   "Our Work" carousel — one photo at a time, auto-advances,
+   with prev/next arrows. Home page only; no-ops elsewhere.
+============================================================ */
+(function buildWorkCarousel() {
+  const root = document.getElementById('workCarousel');
+  if (!root) return;
+
+  const track = root.querySelector('.carousel__track');
+  const slides = [...root.querySelectorAll('.carousel__slide')];
+  const status = root.querySelector('.carousel__status');
+  const prev = root.querySelector('.carousel__nav--prev');
+  const next = root.querySelector('.carousel__nav--next');
+  if (!track || slides.length < 2) return;
+
+  const DELAY = 2000;
+  const total = slides.length;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Infinite loop without a visible rewind: a copy of the last slide is parked
+  // before the first and a copy of the first after the last. Stepping past
+  // either end slides forward onto a clone, then we teleport (transition off)
+  // to the matching real slide. The eye only ever sees forward motion.
+  const head = slides[total - 1].cloneNode(true);
+  const tail = slides[0].cloneNode(true);
+  [head, tail].forEach((clone) => {
+    clone.setAttribute('aria-hidden', 'true');
+    const img = clone.querySelector('img');
+    if (img) { img.alt = ''; img.removeAttribute('loading'); }   // don't announce twice, don't defer
+  });
+  track.insertBefore(head, slides[0]);
+  track.appendChild(tail);
+
+  let pos = 1;              // 0 = head clone, 1..total = real slides, total+1 = tail clone
+  let animating = false;
+
+  const realIndex = () => (pos - 1 + total) % total;
+  const paint = () => { track.style.transform = 'translateX(' + (-pos * 100) + '%)'; };
+
+  const render = () => {
+    paint();
+    slides.forEach((s, i) => s.setAttribute('aria-hidden', String(i !== realIndex())));
+    if (status) status.textContent = (realIndex() + 1) + ' / ' + total;
+  };
+
+  // Jump the track without animating, so the clone swap is invisible.
+  const teleport = (to) => {
+    pos = to;
+    track.style.transition = 'none';
+    paint();
+    void track.offsetHeight;                 // force reflow before restoring
+    track.style.transition = '';
+  };
+
+  // transitionend is the normal signal, but it can simply never arrive (a
+  // dropped frame, a backgrounded tab, a paused compositor). Without a fallback
+  // the `animating` latch would stay stuck and the carousel would freeze for
+  // good, so every move also arms a timer that settles it regardless.
+  const SLIDE_MS = 500;
+  let settleTimer = null;
+
+  const settle = () => {
+    clearTimeout(settleTimer);
+    settleTimer = null;
+    animating = false;
+    if (pos === 0) teleport(total);
+    else if (pos === total + 1) teleport(1);
+  };
+
+  track.addEventListener('transitionend', (e) => {
+    if (e.target === track && e.propertyName === 'transform') settle();
+  });
+
+  const stop = () => { clearInterval(timer); timer = null; };
+  // Restarted (not just started) after every manual move, so a click never
+  // leaves the user 200ms away from an automatic jump.
+  const play = () => {
+    if (reduceMotion) return;
+    stop();
+    timer = setInterval(() => move(1), DELAY);
+  };
+  let timer = null;
+
+  function move(step) {
+    if (animating) return;
+    animating = true;
+    pos += step;
+    render();
+    if (reduceMotion) settle();              // no transition means no transitionend
+    else settleTimer = setTimeout(settle, SLIDE_MS + 120);
+  }
+
+  const nudge = (step) => { move(step); play(); };
+
+  if (prev) prev.addEventListener('click', () => nudge(-1));
+  if (next) next.addEventListener('click', () => nudge(1));
+
+  // Reading a photo shouldn't fight the autoplay.
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', play);
+  root.addEventListener('focusin', stop);
+  root.addEventListener('focusout', play);
+
+  // Arrow keys work once the carousel has focus.
+  root.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); nudge(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); nudge(1); }
+  });
+
+  // Swipe on touch devices.
+  let startX = null;
+  root.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; stop(); }, { passive: true });
+  root.addEventListener('touchend', (e) => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) nudge(dx < 0 ? 1 : -1); else play();
+    startX = null;
+  }, { passive: true });
+
+  // Don't burn cycles advancing a carousel nobody can see.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stop(); else play();
+  });
+
+  teleport(1);              // land on the first real slide, past the head clone
+  render();
+  play();
+})();
+
+
+/* ============================================================
+   Video reviews — two clips side by side, so make sure only one
+   ever plays at a time.
+============================================================ */
+(function soloOneReviewVideo() {
+  const videos = [...document.querySelectorAll('.review-video video')];
+  if (videos.length < 2) return;
+
+  videos.forEach((v) => {
+    v.addEventListener('play', () => {
+      videos.forEach((other) => { if (other !== v && !other.paused) other.pause(); });
+    });
+  });
+})();

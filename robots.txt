@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://spotless360ga.com/sitemap.xml
