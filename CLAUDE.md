@@ -248,19 +248,72 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
 - `preload="none"` + poster: the 9 MB is not fetched until someone presses play.
 - The `.mov` originals stay gitignored; the `.mp4` and posters are committed.
 
-**Still claimed without evidence:** "Rated 5.0 on Google" under the reviews heading, and JSON-LD
-`reviewCount: 127`. Same category as the testimonials that were just removed.
+**Those unverified "Rated 5.0 / 127 reviews" claims were removed on 2026-08-21** — see below.
+
+## Session changes — 2026-08-21 (video formats, colour, caching, invented reviews)
+
+**Videos: WebM primary, MP4 fallback — do NOT drop the MP4**
+- Client supplied VP9/Vorbis WebM at full 1080x1440. Those are now the first `<source>`;
+  the H.264 MP4s stay as a second `<source>`. **iOS Safari only handles WebM from 17.4**, and
+  partially — WebM alone would put iPhone visitors back to an empty player. Browsers fetch one.
+- WebM is not smaller here (6.2 MB vs 5.2 MB for review-1) but carries 2x the pixels.
+
+**The "saturated" video complaint — cause was my own transcode**
+- Transcoding the HEVC originals with `MediaTranscoder` blew the colour out: review-2's frame went
+  to **saturation 0.50 with 35% of pixels clipped**. The posters were cut from those MP4s, so the
+  still frame — the first thing anyone sees — was the worst-looking part.
+- Fix: re-derive **everything from the client's WebM**, whose colour is correct. Both MP4s and both
+  posters now sit at saturation 0.10–0.17 with ~0% clipping.
+- Ruled out HDR first: the files carry no `colr`, `dvcC`, `mdcv` or `clli`, so there was no tone
+  mapping to get wrong.
+- **Bitrate gotcha:** `MediaEncodingProfile.CreateMp4(HD720p)` defaults to **9 Mbps**. Setting
+  Width/Height without setting `Video.Bitrate` produced a 24 MB "fallback". Set the bitrate
+  explicitly — 810x1080 @ 1.8 Mbps gives 5.2 MB / 3.6 MB.
+
+**Posters must be captured in the browser, not from the shell**
+- `StorageFile.GetThumbnailAsync` does NOT return frame 0 — Windows picks a "representative" frame,
+  which here landed in the b-roll. Both clips have the customer on camera from 0 s.
+- `MediaComposition` would allow an exact timestamp but is **unusable from PS 5.1**: its `Clips`
+  IVector arrives as a bare `__ComObject`. `.Add()`, `.Append()`, an `IList<T>` cast and reflection
+  on `Append` all fail. Don't retry this path.
+- Instead the dev server (`scratchpad/serve-spotless360.ps1`) gained **`POST /_save?name=`**, which
+  writes the body into `assets/`. The page draws the frame to a canvas and posts the blob straight
+  to disk — no megabytes of base64 round-tripping through the agent. Reusable for any capture.
+
+**Caching — the host was serving stale CSS for a week**
+- Namecheap defaulted CSS and images to `max-age=604800`. Deploys overwrite files in place keeping
+  their names, so returning visitors kept old CSS/photos for 7 days. A 2x2 card layout looked
+  broken for exactly this reason, and the corrected posters would never have reached them.
+- Added **`.htaccess`**: HTML `no-cache`, CSS/JS 1 h + `must-revalidate`, images 1 day +
+  `must-revalidate`, video 30 days. Revalidation means unchanged files still cost only a 304.
+- Every rule is wrapped in `IfModule` — a malformed `.htaccess` 500s the whole site.
+
+**Home services grid is 2x2 now**
+- "Airflow Test & AC Mold Inspection" card removed (it was the only one with no page of its own,
+  pointing at `#quote`). New `.cards--2`; `.cards--split` is still there if a 5th card returns.
+- `icon-airflow.png` is now unreferenced but still deploys.
+
+**Invented reviews removed**
+- Visible: the hero "Google Reviews ★★★★★" badge, and the "Rated 5.0 on Google" line — the latter
+  was on **5 pages**, not just the home.
+- Structured data: `aggregateRating` 5.0 / 127 reviews stripped from **6 pages**. It was the last
+  property in each object, so the trailing comma had to go with it or the whole block turns into
+  invalid JSON and Google discards *all* the page's structured data.
+- Replaced with two **`VideoObject`** entries for the real testimonial videos (name, description,
+  poster, duration, contentUrl). Confirmed with the client that these are genuine customers
+  speaking, opening on job footage.
+- `.greviews` / `.hero__greviews` CSS is now unused — kept in case the badge returns with real reviews.
+- services.html: dropped "UV light installation & replacement" from the air-duct list.
 
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
-- [ ] **Airflow Test & AC Mold Inspection** has no dedicated page (home card → `#quote`). Build one, or
-      point it to `services.html`.
+- [x] ~~Airflow Test & AC Mold Inspection had no page~~ — card removed 2026-08-21.
 - [x] ~~canonical/JSON-LD pointed at the wrong domain~~ — all 65 self-URLs now `spotless360ga.com`.
 - [ ] Decide whether to rename `-repair.html` files to `-maintenance.html` (needs redirects) or leave.
 - [x] ~~`sitemap.xml` + `robots.txt`~~ — added 2026-08-19.
-- [ ] JSON-LD `reviewCount` still `127`; "homes served" is `1249+`; "Rated 5.0 on Google" still on
-      the home. Unverified claims, same category as the testimonials that were removed.
+- [x] ~~Invented review claims~~ — removed 2026-08-21 (visible + JSON-LD).
+- [ ] "1249+ homes served" is still an unverified number in the About copy.
 - [ ] Swap the 3 invented testimonials still live on the 4 service pages.
 - [ ] Turn GitHub Pages off, and submit the sitemap in Search Console.
 - [ ] Write remaining "coming soon" blog articles; per-service hero photos for Dryer/Chimney/Gutter.

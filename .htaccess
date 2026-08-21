@@ -1,0 +1,40 @@
+# Caching policy
+#
+# The host defaults to max-age=604800 (7 days) for CSS and images. That breaks
+# this site's workflow: deploys overwrite files in place, keeping their names,
+# so a returning visitor keeps the stale copy for a week — a CSS change or a
+# corrected photo simply never reaches them.
+#
+# Short max-age + revalidation instead. Browsers still avoid re-downloading
+# unchanged files (they get a tiny 304 via Last-Modified/ETag), but anything
+# that actually changed lands on the next visit.
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                        "access plus 1 hour"
+  ExpiresByType text/html               "access plus 0 seconds"
+  ExpiresByType text/css                "access plus 1 hour"
+  ExpiresByType application/javascript  "access plus 1 hour"
+  ExpiresByType text/javascript         "access plus 1 hour"
+  ExpiresByType image/jpeg              "access plus 1 day"
+  ExpiresByType image/png               "access plus 1 day"
+  ExpiresByType image/avif              "access plus 1 day"
+  ExpiresByType image/svg+xml           "access plus 1 day"
+  # Videos are large and rarely re-cut; let them sit longer.
+  ExpiresByType video/mp4               "access plus 30 days"
+  ExpiresByType video/webm              "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # CSS/JS drive layout and behaviour — a stale copy visibly breaks the page.
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+  # HTML must always be re-checked so it can point at updated assets.
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|avif|svg)$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate"
+  </FilesMatch>
+</IfModule>

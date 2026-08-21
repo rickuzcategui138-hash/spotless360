@@ -45,9 +45,40 @@
     "priceRange": "$$",
     "areaServed": [ { "@type": "City", "name": "Atlanta" }, { "@type": "City", "name": "Alpharetta" }, { "@type": "City", "name": "Roswell" }, { "@type": "City", "name": "Sandy Springs" }, { "@type": "City", "name": "Johns Creek" }, { "@type": "City", "name": "Milton" }, { "@type": "City", "name": "Cumming" }, { "@type": "City", "name": "Suwanee" }, { "@type": "City", "name": "Duluth" }, { "@type": "City", "name": "Peachtree Corners" }, { "@type": "City", "name": "Norcross" }, { "@type": "City", "name": "Berkeley Lake" }, { "@type": "City", "name": "Lawrenceville" }, { "@type": "City", "name": "Buford" }, { "@type": "City", "name": "Sugar Hill" }, { "@type": "City", "name": "Dacula" }, { "@type": "City", "name": "Grayson" }, { "@type": "City", "name": "Snellville" }, { "@type": "City", "name": "Lilburn" }, { "@type": "City", "name": "Loganville" }, { "@type": "City", "name": "Stone Mountain" }, { "@type": "City", "name": "Tucker" }, { "@type": "City", "name": "Decatur" }, { "@type": "City", "name": "Brookhaven" }, { "@type": "City", "name": "Chamblee" }, { "@type": "City", "name": "Dunwoody" }, { "@type": "City", "name": "Doraville" }, { "@type": "City", "name": "Avondale Estates" }, { "@type": "City", "name": "Smyrna" }, { "@type": "City", "name": "Marietta" }, { "@type": "City", "name": "Kennesaw" }, { "@type": "City", "name": "Acworth" }, { "@type": "City", "name": "Woodstock" }, { "@type": "City", "name": "Canton" }, { "@type": "City", "name": "Holly Springs" }, { "@type": "City", "name": "Powder Springs" }, { "@type": "City", "name": "Austell" }, { "@type": "City", "name": "Mableton" }, { "@type": "City", "name": "Vinings" }, { "@type": "City", "name": "East Point" }, { "@type": "City", "name": "College Park" }, { "@type": "City", "name": "Hapeville" }, { "@type": "City", "name": "Forest Park" }, { "@type": "City", "name": "Riverdale" }, { "@type": "City", "name": "Jonesboro" }, { "@type": "City", "name": "Stockbridge" }, { "@type": "City", "name": "McDonough" }, { "@type": "City", "name": "Fayetteville" }, { "@type": "City", "name": "Peachtree City" }, { "@type": "City", "name": "Tyrone" }, { "@type": "City", "name": "Newnan" }, { "@type": "City", "name": "Douglasville" }, { "@type": "City", "name": "Lithia Springs" }, { "@type": "City", "name": "Conyers" }, { "@type": "City", "name": "Covington" }, { "@type": "City", "name": "Monroe" }, { "@type": "City", "name": "Winder" }, { "@type": "City", "name": "Braselton" }, { "@type": "City", "name": "Flowery Branch" }, { "@type": "City", "name": "Gainesville" } ],
     "address": { "@type": "PostalAddress", "addressLocality": "Georgia", "addressRegion": "GA", "addressCountry": "US" },
-    "url": "https://spotless360ga.com/",
-    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "127" }
+    "url": "https://spotless360ga.com/"
   }
+  </script>
+
+  <!-- The two real customer testimonial videos in the reviews section. Posters are
+       frame 0 of each clip, where the customer is already on camera — the Windows
+       thumbnail API returns a "representative" frame from the b-roll instead, so
+       these were captured in the browser. Replaced a 5.0-from-127 rating claim
+       that no verifiable reviews backed up. -->|127 that no verifiable reviews backed up. -->
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Customer review of Spotless360 air duct cleaning",
+      "description": "A Spotless360 customer in Georgia talks about their air duct cleaning service, filmed at their home beside the ductwork.",
+      "thumbnailUrl": "https://spotless360ga.com/assets/review-1-poster.jpg",
+      "uploadDate": "2026-08-21",
+      "duration": "PT20S",
+      "contentUrl": "https://spotless360ga.com/assets/review-1.mp4",
+      "publisher": { "@type": "Organization", "name": "Spotless360" }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "Customer review of Spotless360 gutter cleaning",
+      "description": "A Spotless360 customer in Georgia talks about their gutter cleaning service, filmed at their home.",
+      "thumbnailUrl": "https://spotless360ga.com/assets/review-2-poster.jpg",
+      "uploadDate": "2026-08-21",
+      "duration": "PT15S",
+      "contentUrl": "https://spotless360ga.com/assets/review-2.mp4",
+      "publisher": { "@type": "Organization", "name": "Spotless360" }
+    }
+  ]
   </script>
 </head>
 <body>
@@ -129,13 +160,6 @@
           Georgia&rsquo;s New Standard for
           <span class="txt-green">Property Care.</span>
         </h1>
-        <div class="hero__greviews" role="img" aria-label="Rated 5 stars on Google Reviews">
-          <span class="greviews__word">
-            <span class="greviews--b">G</span><span class="greviews--r">o</span><span class="greviews--y">o</span><span class="greviews--b">g</span><span class="greviews--g">l</span><span class="greviews--r">e</span>
-          </span>
-          <span class="greviews__label">Reviews</span>
-          <span class="greviews__stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-        </div>
 
         <ul class="hero__points">
           <li><span class="check">&#10004;</span> No prepayment needed to book</li>
@@ -218,7 +242,7 @@
         <p class="section__intro">One trusted team for the services that keep your home healthy, safe and efficient.</p>
       </div>
 
-      <div class="cards cards--split">
+      <div class="cards cards--2">
         <article class="card" id="air-duct">
           <div class="card__icon card__icon--badge">
             <img src="assets/icon-airduct.png" alt="" width="62" height="62" loading="lazy" />
@@ -226,15 +250,6 @@
           <h3>Air Duct Cleaning &amp; Maintenance</h3>
           <p>Remove dust, allergens and debris from your ductwork for cleaner airflow and a healthier home.</p>
           <a class="card__link" href="air-duct-cleaning-repair.html">Learn more &rarr;</a>
-        </article>
-
-        <article class="card" id="airflow-test">
-          <div class="card__icon card__icon--badge">
-            <img src="assets/icon-airflow.png" alt="" width="62" height="62" loading="lazy" />
-          </div>
-          <h3>Airflow Test &amp; AC Mold Inspection</h3>
-          <p>We measure your system&rsquo;s airflow and inspect your AC for mold, catching hidden issues early to protect your air quality.</p>
-          <a class="card__link" href="#quote">Get a quote &rarr;</a>
         </article>
 
         <article class="card" id="dryer-vent">
@@ -365,7 +380,6 @@
     <div class="container">
       <div class="section__head">
         <h2><span class="txt-green-dark">What Your Neighbors</span> <span class="txt-gold">Say About Us!</span></h2>
-        <p class="section__intro"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span> Rated 5.0 on <span class="greviews__word"><span class="greviews--b">G</span><span class="greviews--r">o</span><span class="greviews--y">o</span><span class="greviews--b">g</span><span class="greviews--g">l</span><span class="greviews--r">e</span></span></p>
       </div>
 
       <!-- Real customer videos. Sources are the only thing to swap once they
@@ -376,6 +390,7 @@
           <video controls preload="none" playsinline
                  poster="assets/review-1-poster.jpg"
                  aria-label="Video review from a Spotless360 customer">
+            <source src="assets/review-1.webm" type="video/webm" />
             <source src="assets/review-1.mp4" type="video/mp4" />
             Your browser can&rsquo;t play this video.
           </video>
@@ -384,6 +399,7 @@
           <video controls preload="none" playsinline
                  poster="assets/review-2-poster.jpg"
                  aria-label="Video review from a Spotless360 customer">
+            <source src="assets/review-2.webm" type="video/webm" />
             <source src="assets/review-2.mp4" type="video/mp4" />
             Your browser can&rsquo;t play this video.
           </video>

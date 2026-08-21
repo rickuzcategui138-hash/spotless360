@@ -433,6 +433,7 @@ a.post-featured:hover { transform: translateY(-4px); }
 /* ---------- Cards grid ---------- */
 .cards { display: grid; gap: 22px; }
 .cards--4 { grid-template-columns: repeat(4, 1fr); }
+.cards--2 { grid-template-columns: repeat(2, 1fr); }
 .cards--3 { grid-template-columns: repeat(3, 1fr); }
 /* Home services: 2 cards on top, 3 on bottom (6-col base) */
 .cards--split { grid-template-columns: repeat(6, 1fr); }
@@ -628,7 +629,7 @@ a.post-featured:hover { transform: translateY(-4px); }
 }
 
 @media (max-width: 560px) {
-  .cards--4, .cards--3, .cards--split { grid-template-columns: 1fr; }
+  .cards--4, .cards--3, .cards--2, .cards--split { grid-template-columns: 1fr; }
   .trust-strip__inner { font-size: .8rem; gap: 8px 18px; }
   .about__stats { gap: 18px; }
   .hero__actions .btn, .contact__actions .btn { flex: 1; }
