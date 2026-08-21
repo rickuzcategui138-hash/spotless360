@@ -304,6 +304,18 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   speaking, opening on job footage.
 - `.greviews` / `.hero__greviews` CSS is now unused — kept in case the badge returns with real reviews.
 - services.html: dropped "UV light installation & replacement" from the air-duct list.
+- **A stray `-->` broke out of the `<head>`.** Rewriting that comment with
+  `perl -0pi -e 's|...|...|'` — pipe as the delimiter AND a pipe inside the pattern — cut the match
+  short and left `|127 that no verifiable reviews backed up. -->` sitting after the real comment
+  close. Text inside `<head>` makes browsers close it and open `<body>`, so an internal note about
+  removed fake reviews rendered above the topbar, live. Use `s{}{}` when the pattern contains a pipe,
+  and after any `<head>` edit check for stray text nodes:
+  `[...document.body.childNodes].filter(n => n.nodeType === 3 && n.textContent.trim())`
+  — validating the JSON-LD parses says nothing about the HTML around it.
+- **Rich Results warnings:** a `publisher` of just `{"@type","name"}` triggers non-critical issues on
+  both the Organization and the Videos. It needs `url` + `logo` (ImageObject, ≥112px —
+  `logo-stacked.png` is 1024²). `uploadDate` also wants a full ISO timestamp with offset, not a bare
+  date. Google reports Organization as a 4th detected item because it reads that nested publisher.
 
 ## TODO / next steps
 
