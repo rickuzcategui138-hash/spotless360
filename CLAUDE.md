@@ -317,6 +317,26 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   `logo-stacked.png` is 1024²). `uploadDate` also wants a full ISO timestamp with offset, not a bare
   date. Google reports Organization as a 4th detected item because it reads that nested publisher.
 
+**Hero: the `$0 DOWN` badge and a gold eyebrow**
+- "No prepayment needed to book" left the tick list and became `.hero__deal` —
+  **"$0 DOWN — PAY AFTER SERVICE."** as a solid green pill between the H1 and the remaining three
+  ticks. As a fourth tick it read as one more feature; as a badge it is the hero's single
+  commercial promise, above the operational reassurances.
+- Hero eyebrow went from the leftover promo orange `#ff9d5c` to **`var(--gold)`**, the same token as
+  "Say About Us!". Worth noting: gold measures **6.85:1 on the dark hero** but only 2.45:1 on white —
+  the token is fine, the background is what decides. Don't reuse it on light sections.
+
+**Rich Results: one organization entity, not two**
+- The page declared the business twice: `HomeAndConstructionBusiness` (name, image, telephone,
+  address, 60 cities, url — but **no logo**) and a thin `publisher` Organization nested in each
+  VideoObject (name, url, logo only). Google evaluated the thin one separately and flagged it.
+- Fix: **drop `publisher`** (it is optional for VideoObject and adds nothing to video rich results)
+  and put **`logo`** on the business entity, which is already an Organization subtype.
+- 4 detected items → 3, with one complete business entity instead of two partial ones.
+- Filling in the thin duplicate was the wrong instinct; the first pass added `url` + `logo` to the
+  publisher, which cleared the *video* warnings but left the Organization one. Consolidating removed
+  the whole class of problem.
+
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).

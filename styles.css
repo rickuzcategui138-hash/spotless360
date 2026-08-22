@@ -169,6 +169,12 @@ a { color: inherit; text-decoration: none; }
 .greviews__stars { color: #FBBC05; font-size: 1.3rem; letter-spacing: 3px; }
 /* Google wordmark reused inline in the Testimonials intro line */
 .section__intro .greviews__word { font-size: 1.05em; letter-spacing: -.3px; vertical-align: baseline; }
+/* The one commercial promise in the hero: a solid badge, not a fourth tick, so
+   it never reads as just another line in the list. */
+.hero__deal { display: inline-block; margin-bottom: 18px; padding: 11px 20px;
+  border-radius: 999px; background: var(--green); color: #fff;
+  font-family: "Poppins", sans-serif; font-weight: 800; font-size: 1.02rem;
+  letter-spacing: .02em; box-shadow: var(--shadow-sm); }
 .hero__points { list-style: none; display: grid; gap: 10px; margin-bottom: 26px; }
 .hero__points li { display: flex; gap: 10px; align-items: center; font-weight: 500; color: var(--ink); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
@@ -593,6 +599,7 @@ a.post-featured:hover { transform: translateY(-4px); }
 
 @media (max-width: 720px) {
   .topbar__item { padding-inline: 1.4rem; }
+  .hero__deal { font-size: .9rem; padding: 10px 16px; margin-bottom: 16px; }
   .hero__greviews { gap: 10px; padding: 10px 16px; margin-bottom: 22px; }
   .greviews__word { font-size: 1.45rem; }
   .greviews__label { font-size: 1.2rem; }
@@ -978,12 +985,16 @@ body.promo-open { overflow: hidden; }
     linear-gradient(180deg, rgba(16,33,26,.86) 0%, rgba(16,33,26,.72) 50%, rgba(16,33,26,.82) 100%),
     url("assets/airduct-residential.jpg") center 28% / cover no-repeat;
 }
-.hero--photo .hero__eyebrow { color: #ff9d5c; }
+/* Brand gold, same token as the reviews heading — replaces the promo orange
+   that came with the old "special offers" eyebrow copy. */
+.hero--photo .hero__eyebrow { color: var(--gold); }
 .hero--photo .hero__title,
 .hero--photo .svc-hero__title { color: #fff; }
 .hero--photo .hero__lead,
 .hero--photo .svc-hero__lead { color: rgba(255,255,255,.85); }
 .hero--photo .hero__points li { color: #fff; }
+/* Over the dark photo hero the badge needs a deeper shadow to separate. */
+.hero--photo .hero__deal { box-shadow: 0 6px 20px -6px rgba(0,0,0,.55); }
 .hero--photo .hero__trust { color: rgba(255,255,255,.85); }
 .hero--photo .hero__trust strong { color: #fff; }
 .hero--photo .breadcrumb,
