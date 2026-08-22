@@ -337,11 +337,34 @@ gutter cleaning & maintenance**. Static site — plain **HTML + CSS + vanilla JS
   publisher, which cleared the *video* warnings but left the Organization one. Consolidating removed
   the whole class of problem.
 
+**Schema optimisation — one business entity instead of eleven**
+- `HomeAndConstructionBusiness` is the right type and stays. It descends from
+  `Organization → LocalBusiness`, so it inherits everything Organization offers while being specific.
+  `HVACBusiness` is narrower but would exclude gutters and chimneys — half the offering.
+- **The real problem was identity, not type.** The business was declared **11 times across 7 pages
+  with no `@id` anywhere** (services.html alone has 4, as `provider` stubs carrying only name +
+  telephone). Google had no way to know they were one business, so instead of one authoritative
+  entity it could see eleven thin ones.
+- All 11 now share **`"@id": "https://spotless360ga.com/#business"`**, so the fragments merge and the
+  `Service` entities on the service pages attach to the same business as the home page.
+  **Any new business declaration must carry that same `@id`.**
+- Added `openingHoursSpecification` (Mon–Sat 07:00–19:00) — already published on the site, never in
+  the schema, and Google surfaces it in local results.
+- `image` pointed at the logo, which is a misuse now that `logo` is its own field. It is now
+  `tech-van.jpg` + `team-in-home.jpg` — real photos, and at least one dimension over 1200px.
+- **Address left as-is by decision (2026-08-21).** `addressLocality` says "Georgia", which is the
+  state, not a city — that field means the city and `addressRegion` already carries "GA". Rich
+  Results also reports `streetAddress` and `postalCode` as missing (both optional). Fixing any of it
+  needs the real address; do not invent one. For a service-area business, omitting `streetAddress` is
+  actually Google's guidance, and `areaServed` already lists the 60 cities.
+
 ## TODO / next steps
 
 - [ ] **Connect forms to a real destination** — still `action="#"` (now with the package selector).
 - [x] ~~Airflow Test & AC Mold Inspection had no page~~ — card removed 2026-08-21.
 - [x] ~~canonical/JSON-LD pointed at the wrong domain~~ — all 65 self-URLs now `spotless360ga.com`.
+- [ ] `addressLocality` says "Georgia" (a state) where a city belongs; `streetAddress` + `postalCode`
+      absent. Left by decision 2026-08-21 — needs the real address, never a guessed one.
 - [ ] Decide whether to rename `-repair.html` files to `-maintenance.html` (needs redirects) or leave.
 - [x] ~~`sitemap.xml` + `robots.txt`~~ — added 2026-08-19.
 - [x] ~~Invented review claims~~ — removed 2026-08-21 (visible + JSON-LD).
